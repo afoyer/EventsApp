@@ -3,6 +3,7 @@ import { DefaultTheme,Provider as PaperProvider, Drawer, Avatar, withTheme } fro
 import { Button, Title, Paragraph } from 'react-native-paper';
 import { Platform, StyleSheet, Text, FlatList,View, ActivityIndicator,ScrollView, SafeAreaView } from 'react-native';
 import Cardd from './Cardd';
+
 const theme = {
   ...DefaultTheme,
     roundness: 20,
