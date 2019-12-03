@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { DefaultTheme,Provider as PaperProvider, Drawer, Avatar, withTheme } from 'react-native-paper';
 import { Button, Title, Paragraph } from 'react-native-paper';
 import { Platform, StyleSheet, Text, FlatList,View, ActivityIndicator,ScrollView, SafeAreaView } from 'react-native';
-import Cardd from '/Users/cliffordchi/Desktop/TestApp/Components/Card/Cardd';
+import Cardd from './Cardd';
 const theme = {
   ...DefaultTheme,
     roundness: 20,
