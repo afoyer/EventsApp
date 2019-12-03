@@ -1,114 +1,90 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, { Component } from 'react';
+import { DefaultTheme,Provider as PaperProvider, Drawer, Avatar, withTheme } from 'react-native-paper';
+import { Button, Title, Paragraph } from 'react-native-paper';
+import { Platform, StyleSheet, Text, FlatList,View, ActivityIndicator,ScrollView, SafeAreaView } from 'react-native';
+import Cardd from '/Users/cliffordchi/Desktop/TestApp/Components/Card/Cardd';
+const theme = {
+  ...DefaultTheme,
+    roundness: 20,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: '#ff0000',
+      accent: '#000000',
+      text: "#cc1111",
+      background: "#000000",
+      contained: '#000000'
+    },
+    dark: true
+  };
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
+export default class App extends Component {
+    
+    constructor(){
+        super();
+        this.state = {
+            items:[]
+        }
+    }
+    componentDidMount(){
+     this._get('https://jsonplaceholder.typicode.com/photos').then(
+            data => {
+                this.setState({items: data})}
+         )
+   }
+ _get = async (endpoint) => {
+     const res = await fetch(endpoint);
+     const data = await res.json();
+     return data;
+ }
+render() {
+    if(this.state.items.length==0){
+        return(
+               <PaperProvider theme={theme}>
+                   <View style={styles.loader}>
+                        <ActivityIndicator size='large'/>
+                   </View>
+               </PaperProvider>
+               )
+    }
+   return (
+               <FlatList
+               data={this.state.items}
+               keyExtractor={(item,index) => index.toString()}
+               renderItem={({item}) => <Cardd item={item}/>}
+               />
+           
+           )
+    }
+}
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop:20,
+    //backgroundColor: '#F5FCFF',
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
+ card: {
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 35,
+ },
+  welcome: {
+     marginTop:15,
+    fontSize: 22,
+    textAlign: 'center',
+    margin: 10,
   },
-  body: {
-    backgroundColor: Colors.white,
+  instructions: {
+    textAlign: 'center',
+    marginBottom: 5,
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
+ loader: {
+    flex:1,
+     alignItems:'center',
+     justifyContent:'center',
+ }
 });
 
-export default App;
+
