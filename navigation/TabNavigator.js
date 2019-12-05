@@ -5,6 +5,7 @@ import {createMaterialTopTabNavigator} from 'react-navigation-tabs'
 import Icon from 'react-native-vector-icons/Ionicons'
 import HomeScreen from '../screens/HomeScreen'
 import Settings from '../screens/Settings'
+Icon.loadFont();
 
 
 const TabNavigator = createMaterialTopTabNavigator({
@@ -12,7 +13,7 @@ const TabNavigator = createMaterialTopTabNavigator({
         screen: HomeScreen,
         navigationOptions: ({ navigation }) => ({
             tabBarLabel: 'Home',
-            
+
             tabBarIcon: ({ tintColor }) => <Icon name="md-home" size={28} color={tintColor} />
         }),
     },
@@ -20,12 +21,12 @@ const TabNavigator = createMaterialTopTabNavigator({
       screen: Settings,
       navigationOptions: ({ navigation }) => ({
           tabBarLabel: 'Settings',
-          
+
           tabBarIcon: ({ tintColor }) => <Icon name="md-settings" size={28} color={tintColor}/>
       }),
   },
 },{
-    
+
     swipeEnabled: true,
     animationEnabled: true,
     tabBarPosition :'bottom',
@@ -43,9 +44,9 @@ const TabNavigator = createMaterialTopTabNavigator({
     tabBarOptions: {
       // showLabel: false,
       showIcon: 'true',
-      
+
       style: {
-        borderTopWidth: 0, 
+        borderTopWidth: 0,
         elevation: 0,
         backgroundColor: '#222222',
       },

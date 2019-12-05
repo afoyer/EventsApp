@@ -21,9 +21,9 @@ const theme = {
       },
       dark: true
     };
- 
+
 export default class HomeScreen extends React.Component{
- 
+
     constructor(){
         super();
         this.state = {
@@ -31,36 +31,42 @@ export default class HomeScreen extends React.Component{
         }
     }
     componentDidMount(){
-     this._get('https://jsonplaceholder.typicode.com/photos').then(
+     this._get('https://feed2json.org/convert?url=https%3A%2F%2Fcoloradocollege-web.ungerboeck.com%2Fcalendar%2Fapi%2FrssFeed%3F%24filter%3D%28CampusDisplay%2520eq%2520%2527PUBANDINT%2527%2520or%2520CampusDisplay%2520eq%2520%2527INTERNAL%2527%29').then(
             data => {
-                this.setState({items: data})}
+                this.setState({items: data})
+              }
          )
+
    }
- _get = async (endpoint) => {
-     const res = await fetch(endpoint);
-     const data = await res.json();
-     return data;
- }
-render() {
-    if(this.state.items.length==0){
-        return(
-               <PaperProvider theme={theme}>
-                   <View style={styles.loader}>
-                        <ActivityIndicator size='large'/>
-                   </View>
-               </PaperProvider>
-               )
-    }
-   return (
-               <FlatList
-               data={this.state.items}
-               keyExtractor={(item,index) => index.toString()}
-               renderItem={({item}) => <Cardd item={item}/>}
-               />
-               
-           
-           )
-    }
+   _get = async (endpoint) => {
+       const res = await fetch(endpoint);
+       const data = await res.json();
+       return data;
+   }
+  render() {
+      if(this.state.items.length==0){
+          return(
+                 <PaperProvider theme={theme}>
+                     <View style={styles.loader}>
+                          <ActivityIndicator size='large'/>
+                     </View>
+                 </PaperProvider>
+                 )
+      }
+     return (
+         <FlatList
+         data={this.state.items.items}
+         renderItem={({ item }) => (
+            <Item
+              title={item.title}
+              summary={item.summary}
+              description={item.description}
+            />)}
+         keyExtractor={(item,index) => index.toString()}
+         renderItem={({item}) => <Cardd item={item}/>}
+         />
+             )
+      }
         }
 
 const styles = StyleSheet.create({
