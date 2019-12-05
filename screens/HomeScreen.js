@@ -61,6 +61,8 @@ export default class HomeScreen extends React.Component{
               title={item.title}
               summary={item.summary}
               description={item.description}
+              image={item.image}
+              url={item.url}
             />)}
          keyExtractor={(item,index) => index.toString()}
          renderItem={({item}) => <Cardd item={item}/>}
