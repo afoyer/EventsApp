@@ -20,13 +20,14 @@ const theme = {
 export default class Cardd extends React.PureComponent {
     render(){
       var subtitle = this.props.item.summary.split("</p>",1);
-      //subtitle = subtitle.slice(3);
+      var sub2 = subtitle[0].substr(3);
+      console.log(typeof sub2);
         return (
                 <PaperProvider theme={theme}>
                 <Card style={styles.cardStyle}>
                   <Card.Content>
                     <Title>{this.props.item.title}</Title>
-                    <Paragraph>{subtitle}</Paragraph>
+                    <Paragraph>{sub2}</Paragraph>
                   </Card.Content>
                   <Card.Cover source={{ uri: this.props.item.url}} />
                   <Card.Actions>
