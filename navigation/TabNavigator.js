@@ -81,11 +81,12 @@ const TabNavigator = createMaterialTopTabNavigator({
     tabBarOptions: {
       showLabel: false,
       showIcon: 'true',
-
+      pressOpacity: '0',
+      pressColor: '0',
       style: {
         borderTopWidth: 0,
         elevation: 0,
-        backgroundColor: '#222222',
+        backgroundColor: '#333333',
       },
       activeBackgroundColor: '#000000',
       inactiveBackgroundColor: '#000000',
@@ -94,9 +95,10 @@ const TabNavigator = createMaterialTopTabNavigator({
       shadowOffset: { height: 5 },
       shadowOpacity: 0.75,
       shadowRadius: 5,
+      
       inactiveTintColor: '#f2f2f2',
       indicatorStyle: {
-        height: '5%',
+        height: '0%',
         backgroundColor: '#D09B2C'
       }
     }
