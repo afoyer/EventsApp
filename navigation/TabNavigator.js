@@ -9,20 +9,57 @@ Icon.loadFont();
 
 
 const TabNavigator = createMaterialTopTabNavigator({
+  
     Home: {
         screen: HomeScreen,
-        navigationOptions: ({ navigation }) => ({
-            tabBarLabel: 'Home',
-
-            tabBarIcon: ({ tintColor }) => <Icon name="md-home" size={28} color={tintColor} />
-        }),
+        tabBarOptions: {
+          indicatorStyle: {
+            height: '5%',
+            backgroundColor: '#D09B2C'
+          }
+        },
+        navigationOptions: ({navigation}) => ({
+          
+          title: 'Home',
+           tabBarLabel: 'Home',
+           tabBarIcon: ({ focused, tintColor }) => {
+             
+             const { routeName } = navigation.state;
+             let tabBarIcon;
+             switch(routeName) {
+               case 'Home':
+                 return tabBarIcon = focused ? <Icon name="md-home" size={28} color={tintColor}/> : <Icon name="md-home" size={28} color={'#78909c'}/>
+               case 'Preferences':
+                 return tabBarIcon = focused ? <Icon name="md-home" size={28} color={'#9B9B9B'}/> : <Icon name="md-home" size={28} color={'#78909c'}/>
+             }
+             return tabBarIcon
+           },
+       }),
     },
     Preferences: {
       screen: Settings,
-      navigationOptions: ({ navigation }) => ({
+      tabBarOptions: {
+        indicatorStyle: {
+          height: '5%',
+          backgroundColor: '#f06292'
+        }
+      },
+      navigationOptions: ({navigation}) => ({
+        
+         title: 'Home',
           tabBarLabel: 'Settings',
-
-          tabBarIcon: ({ tintColor }) => <Icon name="md-settings" size={28} color={tintColor}/>
+          tabBarIcon: ({ focused, inactiveTintColor }) => {
+            
+            const { routeName } = navigation.state;
+            let tabBarIcon;
+            switch(routeName) {
+              case 'Home':
+                return tabBarIcon = focused ? <Icon name="md-heart" size={28} color={'#9B9B9B'}/> : <Icon name="md-heart" size={28} color={'#f2f2f2'}/>
+              case 'Preferences':
+                return tabBarIcon = focused ? <Icon name="md-heart" size={28} color={'#f06292'}/> : <Icon name="md-heart" size={28} color={'#78909c'}/>
+            }
+            return tabBarIcon
+          },
       }),
   },
 },{
@@ -42,7 +79,7 @@ const TabNavigator = createMaterialTopTabNavigator({
       return label
     },
     tabBarOptions: {
-      // showLabel: false,
+      showLabel: false,
       showIcon: 'true',
 
       style: {
@@ -57,7 +94,7 @@ const TabNavigator = createMaterialTopTabNavigator({
       shadowOffset: { height: 5 },
       shadowOpacity: 0.75,
       shadowRadius: 5,
-      inactiveTintColor: '#9B9B9B',
+      inactiveTintColor: '#f2f2f2',
       indicatorStyle: {
         height: '5%',
         backgroundColor: '#D09B2C'
