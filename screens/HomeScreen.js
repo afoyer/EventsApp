@@ -6,6 +6,8 @@ import { Platform, Text, FlatList,ActivityIndicator,ScrollView, SafeAreaView } f
 import Cardd from '../Cardd';
 
 import ScreenName from '../components/ScreenName'
+
+
 const theme = {
     ...DefaultTheme,
       roundness: 20,
@@ -21,6 +23,7 @@ const theme = {
     };
  
 export default class HomeScreen extends React.Component{
+ 
     constructor(){
         super();
         this.state = {
@@ -54,6 +57,7 @@ render() {
                keyExtractor={(item,index) => index.toString()}
                renderItem={({item}) => <Cardd item={item}/>}
                />
+               
            
            )
     }
