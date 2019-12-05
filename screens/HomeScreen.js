@@ -11,6 +11,7 @@ import ScreenName from '../components/ScreenName'
 const theme = {
     ...DefaultTheme,
       roundness: 20,
+      
       colors: {
         ...DefaultTheme.colors,
         primary: '#ff0000',
@@ -23,7 +24,7 @@ const theme = {
     };
 
 export default class HomeScreen extends React.Component{
-
+    
     constructor(){
         super();
         this.state = {
@@ -54,6 +55,7 @@ export default class HomeScreen extends React.Component{
                  )
       }
      return (
+       
          <FlatList
          data={this.state.items.items}
          renderItem={({ item }) => (
@@ -100,3 +102,4 @@ const styles = StyleSheet.create({
        justifyContent:'center',
    }
   });
+  

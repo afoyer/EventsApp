@@ -12,7 +12,7 @@ export default class Settings extends React.Component{
     render(){
         return(
             <View style = {styles.container}>
-                <ScreenName name = {'Settings'}/>
+                <ScreenName name = {'Saved'}/>
             </View>
         );
     }
@@ -22,6 +22,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems :'center',
         justifyContent: 'center',
-        backgroundColor: '#f2f2f2'
+        backgroundColor: '#222222'
     },
 })

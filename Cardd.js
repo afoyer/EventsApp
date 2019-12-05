@@ -28,7 +28,7 @@ export default class Cardd extends React.PureComponent {
     render(){
       var subtitle = this.props.item.summary.split("</p>",1);
       var sub2 = subtitle[0].substr(3);
-      console.log(typeof sub2);
+      // console.log(typeof sub2);
         return (
 
                 <PaperProvider theme={theme}>
