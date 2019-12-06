@@ -44,7 +44,17 @@ export default class HomeScreen extends React.Component{
        const data = await res.json();
        return data;
    }
+   static navigationOptions = {
+    title: 'Details',
+    titleColor: '#222222',
+    headerTintColor: 'white',
+    headerStyle: {
+      backgroundColor: '#222222'
+      
+    },
+  };
   render() {
+    
       if(this.state.items.length==0){
           return(
                  <PaperProvider theme={theme}>

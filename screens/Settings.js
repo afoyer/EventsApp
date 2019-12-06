@@ -6,7 +6,7 @@ import ScreenName from '../components/ScreenName'
  
 export default class Settings extends React.Component{
     static NavigationOptions = {
-
+        title: 'Settings'
     };
 
     render(){
@@ -19,6 +19,7 @@ export default class Settings extends React.Component{
 }
 const styles = StyleSheet.create({
     container: {
+        
         flex: 1,
         alignItems :'center',
         justifyContent: 'center',
