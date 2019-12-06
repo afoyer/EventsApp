@@ -4,6 +4,7 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/Ionicons'
 import Animated, { Easing } from 'react-native-reanimated';
+import CardStackStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator';
 
 Icon.loadFont()
 
@@ -26,9 +27,10 @@ class Add extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
+        <Text>Add</Text>
         <Button
-          title="Go to Details"
+          title="Stack Test"
+          color='black'
           onPress={() => {
             /* 1. Navigate to the Details route with params */
             this.props.navigation.navigate('Details', {
@@ -92,9 +94,8 @@ const RootStack = createStackNavigator(
   {
     initialRouteName: 'Home',
     transitionConfig: () => ({
-      transitionSpec: {
-        duration: 0,  // Set the animation duration time as 0 !!
-      },
+      transitionSpec: { duration: 150 },
+        screenInterpolator: CardStackStyleInterpolator.forHorizontal,
     })
   }
 );
