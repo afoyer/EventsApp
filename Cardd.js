@@ -33,19 +33,19 @@ export default class Cardd extends React.PureComponent {
 
                 <PaperProvider theme={theme}>
                 <Card style={styles.cardStyle}>
+                <TouchableOpacity onPress={() => this._onPressButton(this.props.item.url)}>
+                  <View style={styles.button}>
                   <Card.Content>
-                  <TouchableOpacity onPress={() => this._onPressButton(this.props.item.url)}>
-                    <View style={styles.button}>
                     <Title>{this.props.item.title}</Title>
                     <Paragraph>{sub2}</Paragraph>
-                    </View>
-                  </TouchableOpacity>
                   </Card.Content>
                   <Card.Cover source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBk9rGEmH-aZgOUCnYpDMYqkF1a19BZHCh-tTfE_aeAG5u5akQ&s"}} />
                   <Card.Actions>
                     <Button>Cancel</Button>
                     <Button>Ok</Button>
                   </Card.Actions>
+                  </View>
+                </TouchableOpacity>
                 </Card>
                 <Text></Text>
                 </PaperProvider>
