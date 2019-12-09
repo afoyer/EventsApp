@@ -5,6 +5,14 @@ import { Platform, StyleSheet, Text, FlatList,
          View, ActivityIndicator,ScrollView,
          TouchableOpacity, Image, SafeAreaView,
          TouchableHighlight, Linking } from 'react-native';
+import * as AddCalendarEvent from 'react-native-add-calendar-event';
+import moment from 'moment';
+
+const utcDateToString = (momentInUTC: moment): string => {
+  let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+  // console.warn(s);
+  return s;
+};
 
 const theme = {
 ...DefaultTheme,
@@ -25,8 +33,72 @@ export default class Cardd extends React.PureComponent {
           Linking.openURL(link);
       }
 
+      static addToCalendar = (title: string, startDateUTC: moment) => {
+        const eventConfig = {
+          title,
+          startDate: utcDateToString(startDateUTC),
+          endDate: utcDateToString(moment.utc(startDateUTC).add(1, 'hours')),
+          notes: 'tasty!',
+          navigationBarIOS: {
+            tintColor: 'orange',
+            backgroundColor: 'green',
+            titleColor: 'blue',
+          },
+        };
+
+        AddCalendarEvent.presentEventCreatingDialog(eventConfig)
+          .then((eventInfo: { calendarItemIdentifier: string, eventIdentifier: string }) => {
+            // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
+            // These are two different identifiers on iOS.
+            // On Android, where they are both equal and represent the event id, also strings.
+            // when { action: 'CANCELED' } is returned, the dialog was dismissed
+            console.warn(JSON.stringify(eventInfo));
+          })
+          .catch((error: string) => {
+            // handle error such as when user rejected permissions
+            console.warn(error);
+          });
+      };
+
+      static editCalendarEventWithId = (eventId: string) => {
+        const eventConfig = {
+          eventId,
+        };
+
+        AddCalendarEvent.presentEventEditingDialog(eventConfig)
+          .then(eventInfo => {
+            console.warn(JSON.stringify(eventInfo));
+          })
+          .catch((error: string) => {
+            // handle error such as when user rejected permissions
+            console.warn(error);
+          });
+      };
+
+      static showCalendarEventWithId = (eventId: string) => {
+        const eventConfig = {
+          eventId,
+          allowsEditing: true,
+          allowsCalendarPreview: true,
+          navigationBarIOS: {
+            tintColor: 'orange',
+            backgroundColor: 'green',
+          },
+        };
+
+        AddCalendarEvent.presentEventViewingDialog(eventConfig)
+          .then(eventInfo => {
+            console.warn(JSON.stringify(eventInfo));
+          })
+          .catch((error: string) => {
+            // handle error such as when user rejected permissions
+            console.warn(error);
+          });
+      };
+      
     render(){
       var subtitle = this.props.item.summary.split("</p>",1);
+      const nowUTC = moment.utc();
       var sub2 = subtitle[0].substr(3);
       // console.log(typeof sub2);
         return (
@@ -40,12 +112,12 @@ export default class Cardd extends React.PureComponent {
                     <Paragraph>{sub2}</Paragraph>
                   </Card.Content>
                   <Card.Cover source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBk9rGEmH-aZgOUCnYpDMYqkF1a19BZHCh-tTfE_aeAG5u5akQ&s"}} />
-                  <Card.Actions>
-                    <Button>Cancel</Button>
-                    <Button>Ok</Button>
-                  </Card.Actions>
                   </View>
                 </TouchableOpacity>
+                <Card.Actions >
+                    <Button onPress = {() => Cardd.addToCalendar("hi", nowUTC)}>Ok</Button>
+                  </Card.Actions>
+                
                 </Card>
                 <Text></Text>
                 </PaperProvider>
