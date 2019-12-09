@@ -100,7 +100,9 @@ export default class Cardd extends React.PureComponent {
       var subtitle = this.props.item.summary.split("</p>",1);
       const nowUTC = moment.utc();
       var sub2 = subtitle[0].substr(3);
-      // console.log(typeof sub2);
+      var sub3 = sub2.split(" ");
+
+      //console.log(sub3[1]);
         return (
 
                 <PaperProvider theme={theme}>
