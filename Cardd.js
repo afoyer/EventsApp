@@ -115,7 +115,7 @@ export default class Cardd extends React.PureComponent {
                   </View>
                 </TouchableOpacity>
                 <Card.Actions >
-                    <Button onPress = {() => Cardd.addToCalendar("hi", nowUTC)}>Ok</Button>
+                    <Button onPress = {() => Cardd.addToCalendar(this.props.item.title, nowUTC)}>Ok</Button>
                   </Card.Actions>
                 
                 </Card>
