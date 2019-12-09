@@ -1,6 +1,104 @@
-@@ -28,7 +28,6 @@ export default class Cardd extends React.PureComponent {
+import React, { Component } from 'react';
+import { DefaultTheme,Provider as PaperProvider, Drawer, Avatar, withTheme } from 'react-native-paper';
+import { Button, Card, Title, Paragraph } from 'react-native-paper';
+import { Platform, StyleSheet, Text, FlatList,
+         View, ActivityIndicator,ScrollView,
+         TouchableOpacity, Image, SafeAreaView,
+         TouchableHighlight, Linking } from 'react-native';
+import * as AddCalendarEvent from 'react-native-add-calendar-event';
+import moment from 'moment';
+
+const utcDateToString = (momentInUTC: moment): string => {
+  let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+  // console.warn(s);
+  return s;
+};
+
+const theme = {
+...DefaultTheme,
+  roundness: 8,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#ff0000',
+    accent: '#000000',
+    text: "#cc1111",
+    background: "#000000",
+    contained: '#000000'
+  },
+  dark: true
+};
+
+export default class Cardd extends React.PureComponent {
+      _onPressButton(link) {
+          Linking.openURL(link);
+      }
+
+      static addToCalendar = (title: string, startDateUTC: moment) => {
+        const eventConfig = {
+          title,
+          startDate: utcDateToString(startDateUTC),
+          endDate: utcDateToString(moment.utc(startDateUTC).add(1, 'hours')),
+          notes: 'tasty!',
+          navigationBarIOS: {
+            tintColor: 'orange',
+            backgroundColor: 'green',
+            titleColor: 'blue',
+          },
+        };
+
+        AddCalendarEvent.presentEventCreatingDialog(eventConfig)
+          .then((eventInfo: { calendarItemIdentifier: string, eventIdentifier: string }) => {
+            // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
+            // These are two different identifiers on iOS.
+            // On Android, where they are both equal and represent the event id, also strings.
+            // when { action: 'CANCELED' } is returned, the dialog was dismissed
+            console.warn(JSON.stringify(eventInfo));
+          })
+          .catch((error: string) => {
+            // handle error such as when user rejected permissions
+            console.warn(error);
+          });
+      };
+
+      static editCalendarEventWithId = (eventId: string) => {
+        const eventConfig = {
+          eventId,
+        };
+
+        AddCalendarEvent.presentEventEditingDialog(eventConfig)
+          .then(eventInfo => {
+            console.warn(JSON.stringify(eventInfo));
+          })
+          .catch((error: string) => {
+            // handle error such as when user rejected permissions
+            console.warn(error);
+          });
+      };
+
+      static showCalendarEventWithId = (eventId: string) => {
+        const eventConfig = {
+          eventId,
+          allowsEditing: true,
+          allowsCalendarPreview: true,
+          navigationBarIOS: {
+            tintColor: 'orange',
+            backgroundColor: 'green',
+          },
+        };
+
+        AddCalendarEvent.presentEventViewingDialog(eventConfig)
+          .then(eventInfo => {
+            console.warn(JSON.stringify(eventInfo));
+          })
+          .catch((error: string) => {
+            // handle error such as when user rejected permissions
+            console.warn(error);
+          });
+      };
+      
     render(){
       var subtitle = this.props.item.summary.split("</p>",1);
+      const nowUTC = moment.utc();
       var sub2 = subtitle[0].substr(3);
       var sub3 = sub2.split(" ");
 
@@ -8,31 +106,49 @@
         return (
 
                 <PaperProvider theme={theme}>
-@ -41,9 +40,9 @@ export default class Cardd extends React.PureComponent {
+                <Card style={styles.cardStyle}>
+                <TouchableOpacity onPress={() => this._onPressButton(this.props.item.url)}>
+                  <View style={styles.button}>
+                  <Card.Content>
+                    <Title>{this.props.item.title}</Title>
+                    <Paragraph>{sub2}</Paragraph>
                   </Card.Content>
                   <Card.Cover source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBk9rGEmH-aZgOUCnYpDMYqkF1a19BZHCh-tTfE_aeAG5u5akQ&s"}} />
-                  <Card.Actions>
-                    <Button>Cancel</Button>
-                    <Button>Ok</Button>
-                  </Card.Actions>
-                   <Button>Cancel</Button>
-                   <Button>Ok</Button>
-                 </Card.Actions>
                   </View>
                 </TouchableOpacity>
+                <Card.Actions >
+                    <Button onPress = {() => Cardd.addToCalendar(this.props.item.title, nowUTC)}>Ok</Button>
+                  </Card.Actions>
+                
                 </Card>
-@ -65,11 +64,12 @@ const styles = StyleSheet.create({
+                <Text></Text>
+                </PaperProvider>
+                );
+        }
+}
+
+const styles = StyleSheet.create({
+     container:{
+            marginTop:20,
+            backgroundColor:'#F5FCFF',
+     },
+     cardStyle:{
+       shadowColor: '#000',
+       shadowOpacity: 0.2,
+       shadowRadius: 15,
        shadowOffset:{
             width:3,
             height:3
             }
-          },
-      margin: 5
      },
      cardImage:{
          width:'100%',
          height:200,
-         height:180,
          resizeMode:'cover'
      },
      cardText:{
+         padding:10,
+         fontSize:16,
+     }
+ }
+);
