@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { DefaultTheme,Provider as PaperProvider, Drawer, Avatar, withTheme } from 'react-native-paper';
-import { Button, Card, Title, Paragraph } from 'react-native-paper';
+import { Button, Card, Title, Paragraph, IconButton } from 'react-native-paper';
 import { Platform, StyleSheet, Text, FlatList,
          View, ActivityIndicator,ScrollView,
          TouchableOpacity, Image, SafeAreaView,
-         TouchableHighlight, Linking } from 'react-native';
+         TouchableHighlight, Linking, Colors } from 'react-native';
 import * as AddCalendarEvent from 'react-native-add-calendar-event';
 import moment from 'moment';
 
@@ -125,15 +125,19 @@ export default class Cardd extends React.PureComponent {
                 <TouchableOpacity onPress={() => this._onPressButton(this.props.item.url)}>
                   <View style={styles.button}>
                   <Card.Content>
-                    <Title>{this.props.item.title}</Title>
+                    <Title style={{color: '#000000'}}>{this.props.item.title}</Title>
                     <Paragraph>{sub2}</Paragraph>
                   </Card.Content>
                   <Card.Cover source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBk9rGEmH-aZgOUCnYpDMYqkF1a19BZHCh-tTfE_aeAG5u5akQ&s"}} />
                   </View>
                 </TouchableOpacity>
-                <Card.Actions >
-                    <Button onPress = {() => Cardd.addToCalendar(this.props.item.title, timestart, timeend)}>Ok</Button>
-                  </Card.Actions>
+                    <IconButton
+        icon="shape-square-plus"
+        color={'#4764AE'}
+        size={20}
+        onPress={() => Cardd.addToCalendar(this.props.item.title, timestart, timeend)}
+      />
+               
                 
                 </Card>
                 <Text></Text>
