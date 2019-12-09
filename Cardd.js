@@ -13,7 +13,6 @@ const utcDateToString = (momentInUTC: moment): string => {
   // console.warn(s);
   return s;
 };
-
 const theme = {
 ...DefaultTheme,
   roundness: 8,
@@ -32,13 +31,20 @@ export default class Cardd extends React.PureComponent {
       _onPressButton(link) {
           Linking.openURL(link);
       }
-
-      static addToCalendar = (title: string, startDateUTC: moment) => {
+      getEndDate(string){
+        if(string[8] == 'AM' || string[8] == 'PM'){
+          return (string[0] + ' ' + string[1] + ' ' + string[2].substr(0,2)+ ' ' + string[3] + ' ' + string[7] + ' ' + string[8])
+        }
+        else{
+          return (string[7] + ' ' + string[8] + ' ' + string[9].substr(0,2)+ ' ' + string[10] + ' ' + string[11] + ' ' + string[12])
+        }
+      }
+      static addToCalendar = (title: string, startDateUTC: moment, endDate : moment) => {
         const eventConfig = {
           title,
           startDate: utcDateToString(startDateUTC),
-          endDate: utcDateToString(moment.utc(startDateUTC).add(1, 'hours')),
-          notes: 'tasty!',
+          endDate: utcDateToString(endDate),
+          notes: '',
           navigationBarIOS: {
             tintColor: 'orange',
             backgroundColor: 'green',
@@ -59,7 +65,8 @@ export default class Cardd extends React.PureComponent {
             console.warn(error);
           });
       };
-
+      
+      
       static editCalendarEventWithId = (eventId: string) => {
         const eventConfig = {
           eventId,
@@ -102,7 +109,15 @@ export default class Cardd extends React.PureComponent {
       var sub2 = subtitle[0].substr(3);
       var sub3 = sub2.split(" ");
 
-      //console.log(sub3[1]);
+      
+     
+      //const test = sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2)+ ' ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5]
+      //console.log(test);
+      const endtime = this.getEndDate(sub3)
+      console.log(endtime);
+      const timestart  = moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5], "LLLL").format()
+      const timeend = moment(endtime).format();
+      // const timeend  =  moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[7] + ' ' + sub3[8], "LLLL").format()
         return (
 
                 <PaperProvider theme={theme}>
@@ -117,7 +132,7 @@ export default class Cardd extends React.PureComponent {
                   </View>
                 </TouchableOpacity>
                 <Card.Actions >
-                    <Button onPress = {() => Cardd.addToCalendar(this.props.item.title, nowUTC)}>Ok</Button>
+                    <Button onPress = {() => Cardd.addToCalendar(this.props.item.title, timestart, timeend)}>Ok</Button>
                   </Card.Actions>
                 
                 </Card>
