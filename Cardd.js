@@ -6,8 +6,9 @@ import { Platform, StyleSheet, Text, FlatList,
          TouchableOpacity, Image, SafeAreaView,
          TouchableHighlight, Linking, Colors } from 'react-native';
 import * as AddCalendarEvent from 'react-native-add-calendar-event';
-import 'react-native-vector-icons/MaterialCommunityIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import moment from 'moment';
+Icon.loadFont()
 
 const utcDateToString = (momentInUTC: moment): string => {
   let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
@@ -59,7 +60,7 @@ export default class Cardd extends React.PureComponent {
             // These are two different identifiers on iOS.
             // On Android, where they are both equal and represent the event id, also strings.
             // when { action: 'CANCELED' } is returned, the dialog was dismissed
-            console.warn(JSON.stringify(eventInfo));
+            // console.warn(JSON.stringify(eventInfo));
           })
           .catch((error: string) => {
             // handle error such as when user rejected permissions
@@ -96,11 +97,11 @@ export default class Cardd extends React.PureComponent {
 
         AddCalendarEvent.presentEventViewingDialog(eventConfig)
           .then(eventInfo => {
-            console.warn(JSON.stringify(eventInfo));
+            // console.warn(JSON.stringify(eventInfo));
           })
           .catch((error: string) => {
             // handle error such as when user rejected permissions
-            console.warn(error);
+            // console.warn(error);
           });
       };
       
