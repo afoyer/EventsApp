@@ -7,6 +7,8 @@ import { Platform, StyleSheet, Text, FlatList,
          TouchableHighlight, Linking, Colors } from 'react-native';
 import * as AddCalendarEvent from 'react-native-add-calendar-event';
 import moment from 'moment';
+import Icon from 'react-native-vector-icons/MaterialIcons'
+Icon.loadFont()
 
 const utcDateToString = (momentInUTC: moment): string => {
   let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
@@ -119,15 +121,17 @@ export default class Cardd extends React.PureComponent {
       const timeend = moment(endtime).format();
       // const timeend  =  moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[7] + ' ' + sub3[8], "LLLL").format()
         return (
-
+          
                 <PaperProvider theme={theme}>
                 <Card style={styles.cardStyle}>
                 <TouchableOpacity onPress={() => this._onPressButton(this.props.item.url)}>
                   <View style={styles.button}>
                   <Card.Title
-    title = {this.props.item.title}
-    subtitle= {sub2}
-    right={(props) => <IconButton {...props} icon="shape-square-plus" color={'#4764AE'}
+    title = {<Text style = {{fontSize: 16, color: 'black'}} >{this.props.item.title} </Text>}
+    subtitle= { <Text style = {{ color: 'darkblue'}} >{sub2} </Text>}
+    subtitleStyle = {<Text style =  {{includeFontPadding: true}}/> }
+    
+    right={(props) => <IconButton {...Icon} icon="shape-square-plus" color={'#4764AE'}
     size={30} onPress={() => Cardd.addToCalendar(this.props.item.title, timestart, timeend)} />}
   />
                   <Card.Cover source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBk9rGEmH-aZgOUCnYpDMYqkF1a19BZHCh-tTfE_aeAG5u5akQ&s"}} />
@@ -164,7 +168,7 @@ const styles = StyleSheet.create({
      },
      cardText:{
          padding:10,
-         fontSize:16,
+         fontSize:14,
      },
      
  }
