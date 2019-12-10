@@ -56,8 +56,16 @@ function createTagsTable( con ) {
     });
 }
 
-
-
+function getConnection(){
+    var mysql = require('mysql');
+    var con = mysql.createConnection({
+        host     : "eventsdatabasegood.ckdvrhiblj4u.us-east-2.rds.amazonaws.com",
+        user     : "Drewship",
+        password : "cupcake1234",
+        database : "eventdb"
+    });
+    return con
+}
 
 function createEvent( con , param_list ){
     sql_add_event = "INSERT INTO events (Event_ID , Student_ID , \
@@ -88,14 +96,8 @@ exports.getAllEvents = function( con , callBack){
 
 
 function main() {
-    var mysql = require('mysql');
-    var con = mysql.createConnection({
-      host     : "eventsdatabasegood.ckdvrhiblj4u.us-east-2.rds.amazonaws.com",
-      user     : "Drewship",
-      password : "Iolani1234",
-      database : "eventdb"
 
-    });
+    var con = getConnection()
     con.connect()
     createDatabase(con)
     createEventsTable(con)
