@@ -15,7 +15,7 @@ const utcDateToString = (momentInUTC: moment): string => {
 };
 const theme = {
 ...DefaultTheme,
-  roundness: 8,
+  roundness: 10,
   colors: {
     ...DefaultTheme.colors,
     primary: '#ff0000',
@@ -124,19 +124,16 @@ export default class Cardd extends React.PureComponent {
                 <Card style={styles.cardStyle}>
                 <TouchableOpacity onPress={() => this._onPressButton(this.props.item.url)}>
                   <View style={styles.button}>
-                  <Card.Content>
-                    <Title style={{color: '#000000'}}>{this.props.item.title}</Title>
-                    <Paragraph>{sub2}</Paragraph>
-                  </Card.Content>
+                  <Card.Title
+    title = {this.props.item.title}
+    subtitle= {sub2}
+    right={(props) => <IconButton {...props} icon="shape-square-plus" color={'#4764AE'}
+    size={30} onPress={() => Cardd.addToCalendar(this.props.item.title, timestart, timeend)} />}
+  />
                   <Card.Cover source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBk9rGEmH-aZgOUCnYpDMYqkF1a19BZHCh-tTfE_aeAG5u5akQ&s"}} />
                   </View>
                 </TouchableOpacity>
-                    <IconButton
-        icon="shape-square-plus"
-        color={'#4764AE'}
-        size={20}
-        onPress={() => Cardd.addToCalendar(this.props.item.title, timestart, timeend)}
-      />
+                    
                
                 
                 </Card>
@@ -168,6 +165,7 @@ const styles = StyleSheet.create({
      cardText:{
          padding:10,
          fontSize:16,
-     }
+     },
+     
  }
 );
