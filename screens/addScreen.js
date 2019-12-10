@@ -1,33 +1,61 @@
 import React from 'react';
-import { Button, View, Text, Colors } from 'react-native';
+import { Button, View, Text, Colors, Image } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/Ionicons'
 import Animated, { Easing } from 'react-native-reanimated';
 import CardStackStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator';
-
+import ImagePicker from 'react-native-image-picker';
 Icon.loadFont()
 
 class Add extends React.Component {
+
+  state = {
+    photo: null,
+  }
+
   static navigationOptions = {
     title: 'Add',
     titleColor: '#222222',
     headerTintColor: 'white',
     headerStyle: {
       backgroundColor: '#222222'
-      
+
     },
     headerRight: (
-      
+
       <Icon name="md-home" size={28} color={'white'} onPress= {() => alert('This is a button!')}/>
     ),
-    
+
   };
 
+  handleChoosePhoto = () => {
+    const options = {
+      noData: true,
+    };
+    ImagePicker.launchImageLibrary(options, response => {
+      console.log("response", response);
+      if (response.uri){
+        this.setState({photo: response})
+      }
+    })
+  }
+
   render() {
+    const { photo } = this.state;
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Add</Text>
+        {photo && (
+          <Image
+          source={{uri: photo.uri}}
+          style={{width: 300, height:300}}
+          />
+        )}
+        <Button
+          title="Choose a photo"
+          onPress={this.handleChoosePhoto}
+        />
+
         <Button
           title="Stack Test"
           color='black'
@@ -51,7 +79,7 @@ class DetailsScreen extends React.Component {
     headerTintColor: 'white',
     headerStyle: {
       backgroundColor: '#222222'
-      
+
     },
   };
 
