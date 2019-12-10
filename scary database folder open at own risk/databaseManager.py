@@ -53,16 +53,16 @@ class DatabaseManager(object):
                   Tags, Poster , approved ):
 
 
-        sql_add_event = """INSERT INTO events (Event_ID , Student_ID ,
-                                               Event_Name , Event_Location,
-                                               Event_Description , Event_Date,
-                                               Event_Start , Event_End ,
-                                               Tags, Poster , CCSGA_Approved)
-                            VALUES( %s , %s , %s , %s , %s , %s, %s , %s , %s ,%s, %s )"""
+
 
         event_info = ( Event_ID , Student_ID , Event_Name , Event_Location,
                        Event_Description , Event_Date , Event_Start , Event_End ,
-                       Tags , Poster ,approved, )
+                       Tags , Postersql_add_event = """INSERT INTO events (Event_ID , Student_ID ,
+                                                                                   Event_Name , Event_Location,
+                                                                                   Event_Description , Event_Date,
+                                                                                   Event_Start , Event_End ,
+                                                                                   Tags, Poster , CCSGA_Approved)
+                                                                VALUES( %s , %s , %s , %s , %s , %s, %s , %s , %s ,%s, %s )""" ,approved, )
 
         try:
             c = self.conn.cursor()
