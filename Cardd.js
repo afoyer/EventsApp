@@ -6,9 +6,8 @@ import { Platform, StyleSheet, Text, FlatList,
          TouchableOpacity, Image, SafeAreaView,
          TouchableHighlight, Linking, Colors } from 'react-native';
 import * as AddCalendarEvent from 'react-native-add-calendar-event';
+import 'react-native-vector-icons/MaterialCommunityIcons'
 import moment from 'moment';
-import Icon from 'react-native-vector-icons/MaterialIcons'
-Icon.loadFont()
 
 const utcDateToString = (momentInUTC: moment): string => {
   let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
@@ -116,7 +115,7 @@ export default class Cardd extends React.PureComponent {
       //const test = sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2)+ ' ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5]
       //console.log(test);
       const endtime = this.getEndDate(sub3)
-      console.log(endtime);
+      // console.log(endtime);
       const timestart  = moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5], "LLLL").format()
       const timeend = moment(endtime).format();
       // const timeend  =  moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[7] + ' ' + sub3[8], "LLLL").format()
@@ -131,7 +130,7 @@ export default class Cardd extends React.PureComponent {
     subtitle= { <Text style = {{ color: 'darkblue'}} >{sub2} </Text>}
     subtitleStyle = {<Text style =  {{includeFontPadding: true}}/> }
     
-    right={(props) => <IconButton {...Icon} icon="shape-square-plus" color={'#4764AE'}
+    right={(props) => <IconButton {...props} icon="shape-square-plus" color={'#4764AE'}
     size={30} onPress={() => Cardd.addToCalendar(this.props.item.title, timestart, timeend)} />}
   />
                   <Card.Cover source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBk9rGEmH-aZgOUCnYpDMYqkF1a19BZHCh-tTfE_aeAG5u5akQ&s"}} />
