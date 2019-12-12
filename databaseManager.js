@@ -1,4 +1,5 @@
 var mysql = require('mysql');
+var fs = require("fs");
 
 function createDatabase( con ) {
     con.query("CREATE DATABASE IF NOT EXISTS eventdb", function (err, result) {
@@ -56,12 +57,14 @@ const createConnection = function(){
 
 const createEvent = function( con , param_list ){
     con.connect()
+    param_list[8] = fs.readFileSync("dog.jpg")
     sql_add_event = "INSERT INTO events (Event_ID , Student_ID , \
                      Event_Name , Event_Location, \
                      Event_Description , Event_Date, \
                      Event_Start , Event_End , \
                      Poster , CCSGA_Approved) \
     VALUES( ? , ? , ? , ? , ? , ?, ? , ? , ? ,?)"
+
 
 
     con.query(sql_add_event, param_list,  function (err, result) {
@@ -131,7 +134,9 @@ const packageResults =  function( err , data){
 
         return_list.push( dict)
     }
+}
 
+function processImage( img ){
 
 }
 
@@ -141,8 +146,8 @@ function main() {
     //createDatabase(con)
     //createEventsTable(con)
     //createTagsTable( con )
-    //p_list = [1223 , 123456 , "test" , "somewhere" , "something" ,"now" , 1 , 2 , null , 1]
-    //createEvent( con , p_list )
+    p_list = [113 , 123456 , "test" , "somewhere" , "something" ,"now" , 1 , 2 , null , 1]
+    createEvent( con , p_list )
     getAllEvents( con  , packageResults )
     con.end
 
