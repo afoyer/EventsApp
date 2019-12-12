@@ -1,9 +1,11 @@
 import React from 'react';
 import{View, StyleSheet} from 'react-native'
-import { DefaultTheme,Provider as PaperProvider, Drawer, Avatar, withTheme } from 'react-native-paper';
+import { DefaultTheme,Provider as PaperProvider, Drawer, Avatar, withTheme, Appbar } from 'react-native-paper';
 import { Button, Title, Paragraph } from 'react-native-paper';
 import { Platform, Text, FlatList,ActivityIndicator,ScrollView, SafeAreaView } from 'react-native';
 import Cardd from '../Cardd';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+Icon.loadFont()
 
 import ScreenName from '../components/ScreenName'
 
@@ -14,8 +16,8 @@ const theme = {
       
       colors: {
         ...DefaultTheme.colors,
-        primary: '#ff0000',
-        accent: '#000000',
+        primary: '#333333',
+        accent: '#f1c40f',
         text: "#cc1111",
         background: "#000000",
         contained: '#000000'
@@ -65,7 +67,15 @@ export default class HomeScreen extends React.Component{
                  )
       }
      return (
-       
+       <View>
+          <Appbar.Header theme = {theme}>
+        
+        <Appbar.Content
+          title="Events"
+          subtitle="CC"
+        />
+        <Appbar.Action icon="information" onPress={this._handleSearch} />
+      </Appbar.Header>
          <FlatList
          data={this.state.items.items}
          renderItem={({ item }) => (
@@ -79,6 +89,7 @@ export default class HomeScreen extends React.Component{
          keyExtractor={(item,index) => index.toString()}
          renderItem={({item}) => <Cardd item={item}/>}
          />
+         </View>
              )
       }
         }
