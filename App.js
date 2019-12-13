@@ -9,6 +9,9 @@ export default function App(){
         projectId: "softwareprojectsprinkles",
     };
     firebase.initializeApp(config);
+  if (!firebase.apps.length) {
+     firebase.initializeApp({});
+  }
   return(
     <SafeAreaView style= {{flex: 1, backgroundColor:'#222222'}}>
   <StatusBar
