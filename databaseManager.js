@@ -1,8 +1,8 @@
-const firebase = require('firebase');
+ const firebase = require('firebase');
 
-class DatabaseManager {
-    constructor( firebase ){
-        this.firebase = firebase;
+export default class DatabaseManager {
+    constructor(){
+        // this.firebase = firebase;
         var con = {
                         apiKey: "AIzaSyCQ1Or7dDhTijwhE4FkQiW9zTuQ_iAr9J8",
                         authDomain: "softwareprojectsprinkles.firebaseapp.com",
@@ -14,24 +14,13 @@ class DatabaseManager {
                         measurementId: "G-87TYVWLWE7"
                       };
                 // Initialize Firebase
-        firebase.initializeApp(con);
-        console.log("conneciton established")
-    }
-
-    connect(){
-        var con = {
-                apiKey: "AIzaSyCQ1Or7dDhTijwhE4FkQiW9zTuQ_iAr9J8",
-                authDomain: "softwareprojectsprinkles.firebaseapp.com",
-                databaseURL: "https://softwareprojectsprinkles.firebaseio.com",
-                projectId: "softwareprojectsprinkles",
-                storageBucket: "softwareprojectsprinkles.appspot.com",
-                messagingSenderId: "442618048237",
-                appId: "1:442618048237:web:026c24f610d0b299a4a6e4",
-                measurementId: "G-87TYVWLWE7"
-              };
-        // Initialize Firebase
-        firebase.initializeApp(con);
-        console.log("conneciton established")
+        if (!firebase.apps.length){
+          firebase = firebase.initializeApp(con);
+          console.log("connection is established");
+        }
+        else{
+          console.log("Error connecting Firebase.");
+        }
 
     }
 
@@ -107,12 +96,3 @@ class DatabaseManager {
       });
     }
 }
-
-d = new DatabaseManager( firebase )
-
-
-d.checkIfUserExists( 113 )
-//checkIfUserExists( 123 )
-
-
-

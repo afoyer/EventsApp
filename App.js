@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, StatusBar, SafeAreaView} from 'react-native'
-import Navigator from './navigation/Navigator'
-const firebase = require("firebase");
+import {View, StatusBar, SafeAreaView} from 'react-native';
+import Navigator from './navigation/Navigator';
+import DatabaseManager from './DatabaseManager';
+//const firebase = require("firebase");
 
 export default function App(){
-  //database = new DatabaseManager( firebase )
+  database = new DatabaseManager( )
   return(
     <SafeAreaView style= {{flex: 1, backgroundColor:'#222222'}}>
   <StatusBar
