@@ -4,14 +4,7 @@ import Navigator from './navigation/Navigator'
 const firebase = require("firebase");
 
 export default function App(){
-    var config = {
-        databaseURL: "https://softwareprojectsprinkles.firebaseio.com",
-        projectId: "softwareprojectsprinkles",
-    };
-    firebase.initializeApp(config);
-  if (!firebase.apps.length) {
-     firebase.initializeApp({});
-  }
+  database = new DatabaseManager( firebase )
   return(
     <SafeAreaView style= {{flex: 1, backgroundColor:'#222222'}}>
   <StatusBar
