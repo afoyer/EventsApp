@@ -1,162 +1,95 @@
-var mysql = require('mysql');
-var fs = require("fs");
+const firebase = require('firebase');
+//var admin = require("firebase-admin");
 
-function createDatabase( con ) {
-    con.query("CREATE DATABASE IF NOT EXISTS eventdb", function (err, result) {
-      if (err) throw err;
-      console.log("Database created");
+
+var firebaseConfig = {
+    apiKey: "AIzaSyCQ1Or7dDhTijwhE4FkQiW9zTuQ_iAr9J8",
+    authDomain: "softwareprojectsprinkles.firebaseapp.com",
+    databaseURL: "https://softwareprojectsprinkles.firebaseio.com",
+    projectId: "softwareprojectsprinkles",
+    storageBucket: "softwareprojectsprinkles.appspot.com",
+    messagingSenderId: "442618048237",
+    appId: "1:442618048237:web:026c24f610d0b299a4a6e4",
+    measurementId: "G-87TYVWLWE7"
+  };
+  // Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+//console.log( firebase )
+
+
+//Todo make sure duplicates dont leak in
+function createEvent(param_list){
+    Event_ID = param_list[0]
+    Student_ID = param_list[1]
+    Event_Name = param_list[2]
+    Event_Location= param_list[3]
+    Event_Description = param_list[4]
+    Event_Date= param_list[5]
+    Event_Start = param_list[6]
+    Event_End = param_list[7]
+    Poster = param_list[8]
+    CCSGA_Approved = param_list[9]
+
+
+    var usersRef = firebase.database().ref("Events");
+
+    usersRef.child(Event_ID).set({
+        Event_ID : Event_ID,
+        Student_ID : Student_ID,
+        Event_Name : Event_Name,
+        Event_Location : Event_Location,
+        Event_Description : Event_Description,
+        Event_Date: Event_Date,
+        Event_Start : Event_Start,
+        Event_End : Event_End,
+        Poster : Poster,
+        CCSGA_Approved : CCSGA_Approved
+      });
+ }
+
+function getAllEvents() {
+    firebase.database().ref('Events/').on('value', function (snapshot) {
+        list = snapshot.val()
+        console.log( list[0])
     });
 }
 
-function createEventsTable( con ) {
-
-    var sql_create_table = " CREATE TABLE IF NOT EXISTS events ( \
-                               Event_ID INTEGER NOT NULL PRIMARY KEY, \
-                               Student_ID INTEGER NOT NUll, \
-                               Event_Name TEXT NOT NULL, \
-                               Event_Location TEXT NOT NULL, \
-                               Event_Description TEXT, \
-                               Event_Date TEXT NOT NULL, \
-                               Event_Start INTEGER NOT NULL, \
-                               Event_End INTEGER NOT NULL, \
-                               Poster Blob, \
-                               CCSGA_Approved INTEGER NOT NULL); ";
-
-
-    con.query(sql_create_table, function (err, result) {
-      if (err) throw err;
-      console.log("Events table created");
+function getSpecificEvent( event_id ) {
+    var ref = firebase.database().ref('Events');
+    var query = ref.orderByChild("database/Event_ID").equalTo(event_id);
+    query.once("value", function(snapshot) {
+      snapshot.forEach(function(child) {
+        console.log(child.key, child.val().bio);
+      });
     });
 }
 
-function createTagsTable( con ) {
 
-    var sql_create_table = " CREATE TABLE IF NOT EXISTS taggedEvents ( \
-                             TagName TEXT NOT NULL, \
-                             EventID INTEGER NOT NUll);";
-
-
-
-    con.query(sql_create_table, function (err, result) {
-      if (err) throw err;
-      console.log("Events table created");
-    });
+function userExistsCallback(event_id, exists) {
+  if (exists) {
+    console.log('event ' + event_id + ' exists!');
+  } else {
+    console.log('event ' + event_id + ' does not exist!');
+  }
 }
 
-const createConnection = function(){
-    var mysql = require('mysql');
-    var con = mysql.createConnection({
-        host     : "eventsdatabasegood.ckdvrhiblj4u.us-east-2.rds.amazonaws.com",
-        user     : "Drewship",
-        password : "cupcake1234",
-        database : "eventdb"
-    });
-    console.log("Connected to eventdb")
-    return con
-}
-
-const createEvent = function( con , param_list ){
-    con.connect()
-    param_list[8] = fs.readFileSync("dog.jpg")
-    sql_add_event = "INSERT INTO events (Event_ID , Student_ID , \
-                     Event_Name , Event_Location, \
-                     Event_Description , Event_Date, \
-                     Event_Start , Event_End , \
-                     Poster , CCSGA_Approved) \
-    VALUES( ? , ? , ? , ? , ? , ?, ? , ? , ? ,?)"
-
-
-
-    con.query(sql_add_event, param_list,  function (err, result) {
-          if (err) throw err;
-          console.log("Event " + Event_ID + " added");
-     });
+// Tests to see if /users/<userId> has any data.
+function checkIfUserExists(event_id) {
+    var ref = firebase.database().ref('Events');
+    ref.child(event_id).once('value', function(snapshot) {
+    var exists = (snapshot.val() !== null);
+    userExistsCallback(event_id, exists);
+    console.log(snapshot.val())
+  });
 }
 
 
-// The first param is the connection object created by createConnection
-// The second param is the callback function, this needs to be the last step
-// in the datas journey to avoid callback hell
-// see packageResults for an example of a callback function that works
-const getAllEvents = function( con , callback){
-    sql_get_all_events_current = "SELECT * FROM events LIMIT 2"
-        con.query(sql_get_all_events_current, function (err, result) {
-          if (err) {
-            console.log("Events not got" )
-            callback( err , null )
+//createEvent( [113 , 123456 , "test" , "somewhere" , "something" ,"now" , 1 , 2 , null , 1] )
+//createEvent( [113 , 123456 , "blah" , "somewhere" , "something" ,"now" , 1 , 2 , null , 1] )
+//createEvent( [23 , 123456 , "test" , "somewhere" , "something" ,"now" , 1 , 2 , null , 1] )
 
-          }
-          else {
-           var massaged_list = []
-            for( i in result){
-                var dict = {
-                    "Event_ID" : data[i].Event_ID ,
-                    "Student_ID" : data[i].Student_ID ,
-                    "Event_Name" : data[i].Event_Name ,
-                    "Event_Location" : data[i].Event_Location,
-                    "Event_Description" : data[i].Event_Description ,
-                    "Event_Date" : data[i].Event_Date,
-                    "Event_Start" : data[i].Event_Start ,
-                    "Event_End" : data[i].Event_End ,
-                    "Poster" : data[i].Poster ,
-                    "CCSGA_Approved" : data[i].CCSGA_Approved
-                }
-                massaged_list.push( dict)
-            }
-            callback(null, massaged_list);
-           }
-     });
-}
+checkIfUserExists( 113 )
+checkIfUserExists( 123 )
 
-
-// This is an example of a function that can be used as a callback
-// for getAllEvents, it has two parameters and views the first as
-// An Error
-const packageResults =  function( err , data){
-    if ( err ) { console.log( err )}
-    var return_list = []
-     //res.json(data);
-
-    for( i in data){
-        var dict = {
-            "Event_ID" : data[i].Event_ID ,
-            "Student_ID" : data[i].Student_ID ,
-            "Event_Name" : data[i].Event_Name ,
-            "Event_Location" : data[i].Event_Location,
-            "Event_Description" : data[i].Event_Description ,
-            "Event_Date" : data[i].Event_Date,
-            "Event_Start" : data[i].Event_Start ,
-            "Event_End" : data[i].Event_End ,
-            "Poster" : data[i].Poster ,
-            "CCSGA_Approved" : data[i].CCSGA_Approved
-
-        }
-
-        return_list.push( dict)
-    }
-}
-
-function processImage( img ){
-
-}
-
-function main() {
-
-    var con = createConnection()
-    //createDatabase(con)
-    //createEventsTable(con)
-    //createTagsTable( con )
-    p_list = [113 , 123456 , "test" , "somewhere" , "something" ,"now" , 1 , 2 , null , 1]
-    createEvent( con , p_list )
-    getAllEvents( con  , packageResults )
-    con.end
-
-}
-
-main()
-
-module.exports ={
-    createConnection
-}
 
 

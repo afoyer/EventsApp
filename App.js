@@ -1,8 +1,14 @@
 import React from 'react';
 import {View, StatusBar, SafeAreaView} from 'react-native'
 import Navigator from './navigation/Navigator'
+const firebase = require("firebase");
 
 export default function App(){
+    var config = {
+        databaseURL: "https://softwareprojectsprinkles.firebaseio.com",
+        projectId: "softwareprojectsprinkles",
+    };
+    firebase.initializeApp(config);
   return(
     <SafeAreaView style= {{flex: 1, backgroundColor:'#222222'}}>
   <StatusBar
