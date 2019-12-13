@@ -1,17 +1,21 @@
 import React from 'react';
-import { Button, View, Text, Colors, Image } from 'react-native';
+import { Button, View, Text, Colors, Image, TextInput } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/Ionicons'
 import Animated, { Easing } from 'react-native-reanimated';
 import CardStackStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator';
 import ImagePicker from 'react-native-image-picker';
+import DateTimePicker from "react-native-modal-datetime-picker";
 Icon.loadFont()
 
 class Add extends React.Component {
 
   state = {
     photo: null,
+    title: null,
+    time: null,
+    isDateTimePickerVisible: false,
   }
 
   static navigationOptions = {
@@ -27,6 +31,19 @@ class Add extends React.Component {
       <Icon name="md-home" size={28} color={'white'} onPress= {() => alert('This is a button!')}/>
     ),
 
+  };
+
+  showDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: true });
+  };
+
+  hideDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: false });
+  };
+
+  handleDatePicked = date => {
+    console.log("A date has been picked: ", date);
+    this.hideDateTimePicker();
   };
 
   handleChoosePhoto = () => {
@@ -45,7 +62,19 @@ class Add extends React.Component {
     const { photo } = this.state;
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        {photo && (
+          <TextInput
+            style={{height: 40}}
+            placeholder="Enter Your Event Title Here: "
+            onChangeText={(text) => this.setState({text})}
+            value={this.state.title}
+          />
+          <Button title="Pick Event Date" onPress={this.showDateTimePicker} />
+          <DateTimePicker
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={this.handleDatePicked}
+            onCancel={this.hideDateTimePicker}
+          />
+      {photo && (
           <Image
           source={{uri: photo.uri}}
           style={{width: 300, height:300}}
@@ -54,18 +83,6 @@ class Add extends React.Component {
         <Button
           title="Choose a photo"
           onPress={this.handleChoosePhoto}
-        />
-
-        <Button
-          title="Stack Test"
-          color='black'
-          onPress={() => {
-            /* 1. Navigate to the Details route with params */
-            this.props.navigation.navigate('Details', {
-              itemId: 86,
-              otherParam: 'anything you want here',
-            });
-          }}
         />
       </View>
     );
