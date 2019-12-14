@@ -14,14 +14,6 @@ export default class DatabaseManager {
                         appId: "1:442618048237:web:026c24f610d0b299a4a6e4",
                         measurementId: "G-87TYVWLWE7"
                       };
-        //         // Initialize Firebase
-        // if (!firebase.apps.length){
-        //   firebase.initializeApp(con, 'EventsApp');
-        //   console.log("connection is established");
-        // }
-        // else{
-        //   console.log("Error connecting Firebase.");
-        // }
 
 
 
@@ -35,7 +27,7 @@ export default class DatabaseManager {
           console.log("Connection not established");
         }
 
-        
+
 
     }
 
