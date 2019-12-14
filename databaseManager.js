@@ -1,4 +1,5 @@
- const firebase = require('firebase');
+var firebase = require('firebase');
+var firebaseResumeDownloadAdd = null;
 
 export default class DatabaseManager {
     constructor(){
@@ -13,14 +14,28 @@ export default class DatabaseManager {
                         appId: "1:442618048237:web:026c24f610d0b299a4a6e4",
                         measurementId: "G-87TYVWLWE7"
                       };
-                // Initialize Firebase
-        if (!firebase.apps.length){
-          firebase = firebase.initializeApp(con);
-          console.log("connection is established");
+        //         // Initialize Firebase
+        // if (!firebase.apps.length){
+        //   firebase.initializeApp(con, 'EventsApp');
+        //   console.log("connection is established");
+        // }
+        // else{
+        //   console.log("Error connecting Firebase.");
+        // }
+
+
+
+//inside function check before initializing
+        if(firebaseResumeDownloadAdd==null){
+           firebaseResumeDownloadAdd =
+           firebase.initializeApp(con);
+           console.log("connection established");
         }
         else{
-          console.log("Error connecting Firebase.");
+          console.log("Connection not established");
         }
+
+        
 
     }
 

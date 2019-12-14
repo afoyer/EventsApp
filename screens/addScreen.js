@@ -14,6 +14,7 @@ class Add extends React.Component {
   state = {
     photo: null,
     title: null,
+    date: null,
     time: null,
     isDateTimePickerVisible: false,
   }
@@ -37,12 +38,12 @@ class Add extends React.Component {
     this.setState({ isDateTimePickerVisible: true });
   };
 
-  hideDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: false });
-  };
-
   handleDatePicked = date => {
     console.log("A date has been picked: ", date);
+    this.hideDateTimePicker();
+  };
+  handleDatePicked = time => {
+    console.log("A time has been picked: ", time);
     this.hideDateTimePicker();
   };
 
@@ -68,11 +69,12 @@ class Add extends React.Component {
             onChangeText={(text) => this.setState({text})}
             value={this.state.title}
           />
-          <Button title="Pick Event Date" onPress={this.showDateTimePicker} />
+          <Button title="Pick Event Date and Time" onPress={this.showDateTimePicker} />
           <DateTimePicker
             isVisible={this.state.isDateTimePickerVisible}
             onConfirm={this.handleDatePicked}
             onCancel={this.hideDateTimePicker}
+            mode={'datetime'}
           />
       {photo && (
           <Image
@@ -147,7 +149,7 @@ const RootStack = createStackNavigator(
 
 const AppContainer = createAppContainer(RootStack);
 
-export default class App extends React.Component {
+export default class ForAppContainer extends React.Component {
   render() {
     return <AppContainer />;
   }
