@@ -12,6 +12,7 @@ Icon.loadFont()
 class Add extends React.Component {
 
   state = {
+    student_id: null,
     photo: null,
     title: null,
     date: null,
