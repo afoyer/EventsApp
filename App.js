@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StatusBar, SafeAreaView} from 'react-native';
 import Navigator from './navigation/Navigator';
-import DatabaseManager from './DatabaseManager';
+import DatabaseManager from './databaseManager';
 
 export default function App(){
   var list = [1137898 , 9 , "Sophia's Test" , "somewhere" , "something" ,"now" , 1 , 2 , null , 1];
