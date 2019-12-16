@@ -60,21 +60,15 @@ class Add extends React.Component {
     };
     ImagePicker.launchImageLibrary(options, response => {
       //console.log("response", response);
-      var file_location = "no image"
+      var uri = "no image"
       if (response.uri){
         this.setState({photo: response})
         if (!response.cancelled) {
-            // User picked an image
+            // uri is poster!!!! for create
             const {height, width, type, uri} = response;
-            file_location = database.formatImg( uri , "3" );
-
-            //DELETE THIS EVENTUALLY this creats a dummy event with the url to img
-            var param_list = [ 1731401 , 173140 , "Event  Name" , "Somewhere", "Click to find out" , "now", "soon", "later", "fix me" , "True" , "https://blazeti.me/" , "tags"]
+            // delete me this is a test
+            param_list = [1731403 , 173140 , "Drews last pic test" , "Fiji House" , "lots of ketchup" , "now" , 0 , 1 , "no image" , "true" , "https://blazeti.me/" , "[ fun, lit]" ]
             database.createEvent( param_list )
-//            setTimeout(function(){
-//                console.log(file_location)
-//            }, 2000);
-
           }
       }
     })

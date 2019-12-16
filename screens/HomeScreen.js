@@ -38,8 +38,10 @@ export default class HomeScreen extends React.Component{
 
     }
     componentDidMount(){
-
+     this.state.items = []
      this._get().then(
+
+            //Duplicate events were happening i think fixes it
             data => {
                 this.setState({items: data })
             }
