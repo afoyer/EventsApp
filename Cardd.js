@@ -115,6 +115,7 @@ export default class Cardd extends React.PureComponent {
       //var poster_img = this.props.item.Poster; USE THIS ONE IRL
       var poster_img = database.getImgByPath("uploads/3.jpg")
       //console.log( poster_img )
+      //console.log("hi " + poster_img)
       var img_src = "https:firebasestorage.googleapis.com/v0/b/softwareprojectsprinkles.appspot.com/o/uploads%2F3.jpg?alt=media&token=d5178fee-4fa2-48d4-8f1f-325b1cb80729"
 
 
@@ -141,7 +142,7 @@ export default class Cardd extends React.PureComponent {
     right={(props) => <IconButton {...props} icon="shape-square-plus" color={'#4764AE'}
     size={30} onPress={() => Cardd.addToCalendar(this.props.item.title, timestart, timeend)} />}
       />
-                      <Card.Cover source={{ uri: "https://firebasestorage.googleapis.com/v0/b/softwareprojectsprinkles.appspot.com/o/uploads%2F3.jpg?alt=media&token=d5178fee-4fa2-48d4-8f1f-325b1cb80729"}} />
+                      <Card.Cover source={{ uri: img_src}} />
                       </View>
                 </TouchableOpacity>
                     
