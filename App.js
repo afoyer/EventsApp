@@ -4,9 +4,9 @@ import Navigator from './navigation/Navigator';
 import DatabaseManager from './databaseManager';
 
 export default function App(){
-  var list = [1137898 , 9 , "Sophia's Test" , "somewhere" , "something" ,"now" , 1 , 2 , null , 1];
+  //var list = [11378098 , 9 , "Sophia's Test" , "somewhere" , "something" ,"now" , 1 , 2 , null , 1];
   database = new DatabaseManager();
-  database.createEvent(list);
+  //database.createEvent(list);
   return(
     <SafeAreaView style= {{flex: 1, backgroundColor:'#222222'}}>
   <StatusBar

@@ -106,19 +106,26 @@ export default class Cardd extends React.PureComponent {
       };
       
     render(){
-      var subtitle = this.props.item.summary.split("</p>",1);
+      //todo to whoever approaches, The attributes are "Event_ID , Student_ID ,Event_Name , Event_Location
+      //todo Event_Description , Event_Date , Event_Start , Event_End , Poster , CCSGA_Approved , Link
+      var subtitle = this.props.item.Event_ID;
       const nowUTC = moment.utc();
-      var sub2 = subtitle[0].substr(3);
-      var sub3 = sub2.split(" ");
+      var sub2 = this.props.item.Event_Name.toString();
+      var sub3 = this.props.item.Event_ID.toString();
+      //var poster_img = this.props.item.Poster; USE THIS ONE IRL
+      var poster_img = database.getImgByPath("uploads/3.jpg")
+      //console.log( poster_img )
+      var img_src = "https:firebasestorage.googleapis.com/v0/b/softwareprojectsprinkles.appspot.com/o/uploads%2F3.jpg?alt=media&token=d5178fee-4fa2-48d4-8f1f-325b1cb80729"
+
 
       
-     
+     //Todo ahhh this is confusing im a java programmer <> are weird
       //const test = sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2)+ ' ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5]
       //console.log(test);
-      const endtime = this.getEndDate(sub3)
+      const endtime = "hahah"//this.getEndDate(sub3)
       // console.log(endtime);
-      const timestart  = moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5], "LLLL").format()
-      const timeend = moment(endtime).format();
+      const timestart  = "hahaha"//moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5], "LLLL").format()
+      const timeend = "haha"//moment(endtime).format();
       // const timeend  =  moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[7] + ' ' + sub3[8], "LLLL").format()
         return (
           
@@ -134,7 +141,9 @@ export default class Cardd extends React.PureComponent {
     right={(props) => <IconButton {...props} icon="shape-square-plus" color={'#4764AE'}
     size={30} onPress={() => Cardd.addToCalendar(this.props.item.title, timestart, timeend)} />}
   />
-                  <Card.Cover source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBk9rGEmH-aZgOUCnYpDMYqkF1a19BZHCh-tTfE_aeAG5u5akQ&s"}} />
+                  <Card.Cover source={{ uri: "https:firebasestorage.googleapis.com/v0/b/softwareprojectsprinkles.appspot.com/o/uploads%2F3.jpg?alt=media&token=d5178fee-4fa2-48d4-8f1f-325b1cb80729"}} />
+}} />
+                  //<Card.Cover source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBk9rGEmH-aZgOUCnYpDMYqkF1a19BZHCh-tTfE_aeAG5u5akQ&s"}} />
                   </View>
                 </TouchableOpacity>
                     

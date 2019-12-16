@@ -5,10 +5,13 @@ import { Button, Title, Paragraph } from 'react-native-paper';
 import { Platform, Text, FlatList,ActivityIndicator,ScrollView, SafeAreaView } from 'react-native';
 import Cardd from '../Cardd';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import DatabaseManager from '../databaseManager';
+
 Icon.loadFont()
+var rss_url = 'https://feed2json.org/convert?url=https%3A%2F%2Fcoloradocollege-web.ungerboeck.com%2Fcalendar%2Fapi%2FrssFeed%3F%24filter%3D%28CampusDisplay%2520eq%2520%2527PUBANDINT%2527%2520or%2520CampusDisplay%2520eq%2520%2527INTERNAL%2527%29'
 
 import ScreenName from '../components/ScreenName'
-
+database = new DatabaseManager();
 
 const theme = {
     ...DefaultTheme,
@@ -32,19 +35,20 @@ export default class HomeScreen extends React.Component{
         this.state = {
             items:[]
         }
+
     }
     componentDidMount(){
-     this._get('https://feed2json.org/convert?url=https%3A%2F%2Fcoloradocollege-web.ungerboeck.com%2Fcalendar%2Fapi%2FrssFeed%3F%24filter%3D%28CampusDisplay%2520eq%2520%2527PUBANDINT%2527%2520or%2520CampusDisplay%2520eq%2520%2527INTERNAL%2527%29').then(
+
+     this._get().then(
             data => {
-                this.setState({items: data})
-              }
-         )
+                this.setState({items: data })
+            }
+     )
 
    }
-   _get = async (endpoint) => {
-       const res = await fetch(endpoint);
-       const data = await res.json();
-       return data;
+   _get = async () => {
+       const data = await database.getAllEvents();
+       return (data);
    }
    static navigationOptions = {
     title: 'Details',
@@ -55,8 +59,13 @@ export default class HomeScreen extends React.Component{
       
     },
   };
+
+
+
   render() {
-    
+
+
+
       if(this.state.items.length==0){
           return(
                  <PaperProvider theme={theme}>
@@ -77,14 +86,17 @@ export default class HomeScreen extends React.Component{
         <Appbar.Action icon="information" onPress={this._handleSearch} />
       </Appbar.Header>
          <FlatList
-         data={this.state.items.items}
+         data={this.state.items}
+         //data = temp_test
+
          renderItem={({ item }) => (
+            //console.log( item )
             <Item
-              title={item.title}
-              summary={item.summary}
-              description={item.description}
-              image={item.image}
-              url={item.url}
+              title={item.Event_ID}
+              summary={item.Event_ID}
+              description={item.Event_ID}
+              image={item.Event_ID}
+              url={item.Event_ID}
             />)}
          keyExtractor={(item,index) => index.toString()}
          renderItem={({item}) => <Cardd item={item}/>}
@@ -123,4 +135,14 @@ const styles = StyleSheet.create({
        justifyContent:'center',
    }
   });
-  
+
+function helperFunction( err , data ){
+    //if ( err) { console.log( err )}
+    //else {
+    console.log("we mad e it?")
+    //}
+
+}
+
+function putEventsOnCards( ){}
+
