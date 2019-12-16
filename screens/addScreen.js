@@ -41,7 +41,7 @@ class Add extends React.Component {
     ),
 
   };
-  
+
   showDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: true });
   };
@@ -67,9 +67,14 @@ class Add extends React.Component {
       noData: true,
     };
     ImagePicker.launchImageLibrary(options, response => {
-      console.log("response", response);
+      //console.log("response", response);
+      var uri = "no image"
       if (response.uri){
         this.setState({photo: response})
+        if (!response.cancelled) {
+            // uri is poster!!!! for create
+            const {height, width, type, uri} = response;
+          }
       }
     })
   }
