@@ -106,19 +106,21 @@ export default class Cardd extends React.PureComponent {
       };
       
     render(){
-      var subtitle = this.props.item.summary.split("</p>",1);
+      //todo to whoever approaches, The attributes are "Event_ID , Student_ID ,Event_Name , Event_Location
+      //todo Event_Description , Event_Date , Event_Start , Event_End , Poster , CCSGA_Approved , Link
+      var subtitle = this.props.item.Event_ID;
       const nowUTC = moment.utc();
-      var sub2 = subtitle[0].substr(3);
-      var sub3 = sub2.split(" ");
+      var sub2 = this.props.item.Event_Name.toString();
+      var sub3 = this.props.item.Event_ID.toString();;
 
       
-     
+     //Todo ahhh this is confusing im a java programmer <> are weird
       //const test = sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2)+ ' ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5]
       //console.log(test);
-      const endtime = this.getEndDate(sub3)
+      const endtime = "hahah"//this.getEndDate(sub3)
       // console.log(endtime);
-      const timestart  = moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5], "LLLL").format()
-      const timeend = moment(endtime).format();
+      const timestart  = "hahaha"//moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5], "LLLL").format()
+      const timeend = "haha"//moment(endtime).format();
       // const timeend  =  moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[7] + ' ' + sub3[8], "LLLL").format()
         return (
           
