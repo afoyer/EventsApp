@@ -66,9 +66,6 @@ class Add extends React.Component {
         if (!response.cancelled) {
             // uri is poster!!!! for create
             const {height, width, type, uri} = response;
-            // delete me this is a test
-            param_list = [1731403 , 173140 , "Drews last pic test" , "Fiji House" , "lots of ketchup" , "now" , 0 , 1 , "no image" , "true" , "https://blazeti.me/" , "[ fun, lit]" ]
-            database.createEvent( param_list )
           }
       }
     })

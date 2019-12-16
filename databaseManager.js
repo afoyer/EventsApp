@@ -1,6 +1,4 @@
 var firebase = require('firebase');
-//var firebase = require( '@firebase/app' )
-//var File = require('File')
 var firebaseResumeDownloadAdd = null;
 var imageToBlob = require( 'image-to-blob' )
 
@@ -19,23 +17,16 @@ export default class DatabaseManager {
             measurementId: "G-87TYVWLWE7"
         };
 
-
-
-//inside function check before initializing
+        //inside function check before initializing
         if(firebaseResumeDownloadAdd==null){
            firebaseResumeDownloadAdd =
            firebase.initializeApp(con);
-           console.log("connection established");
+           console.log("connection  established");
         }
         else{
           //console.log("Connectionot established");
         }
-
-
-
     }
-
-
 
     //Todo make sure duplicates dont leak in
     createEvent( param_list){
@@ -53,10 +44,8 @@ export default class DatabaseManager {
         Tags = param_list[11]
 
 
-        //Poster = "no image";
         this.formatImg( param_list[8] , Event_ID ).then( url => {
             Poster = url;
-            console.log("url  : " + Poster)
         }).then(function(){
             var usersRef = firebase.database().ref("Events");
             usersRef.child(Event_ID).set({
@@ -75,12 +64,20 @@ export default class DatabaseManager {
             });
         });
 
+        var tag_list = Tags.split(",")
+        for( i in tag_list ){
+            this.addTaggedEvent( tag_list[i] , Event_ID)
+        }
+    }
 
-
-
-
-
-     }
+    addTaggedEvent( tag_name , event_id ){
+        var refName = "Tags/" + tag_name
+        console.log("refname  = " + refName)
+        var tagRef = firebase.database().ref(refName);
+        tagRef.child(Event_ID).set({
+            Event_ID : event_id
+        });
+    }
 
     addStudent( param_list){
         Student_ID = 0
@@ -107,56 +104,92 @@ export default class DatabaseManager {
         });
     }
 
+    //Todo contemplate whether to pull all of tags and filter versus make db do it and have mulitple connections (time?)
+    async getEventsFilteredByTags( tag_list ){
+        var return_list_big = []
+        var events_list
+        var return_set = new Set([])
 
 
+        async function getEventsForTag( tag ){
+            var return_list_small = []
+            var refName = "Tags/" + tag
+            return new Promise(function(resolve, reject) {
+                firebase.database().ref(refName).on('value', function (big_snapshot) {
+                    if( !big_snapshot){
+                        reject("its empty?")
+                    }
+                    else{
+                        big_snapshot.forEach(function (snapshot) {
+                            var obj = snapshot.val();
+                            return_list_small.push( obj.Event_ID )
+                        });
+                        resolve(return_list_small)
+                    }
+                });
+            });
+        }
+        async function getEvents(){
+            return new Promise(async function(resolve, reject) {
+                var small_list = []
+                if( tag_list.length == 0){
+                    console.log("no tags")
+                    resolve(small_list)
+                }
+                else{
+                    for ( var i in tag_list ){
+                        small_list = await getEventsForTag(tag_list[i])
+                        return_list_big.push(small_list)
+                    }
+                    resolve(return_list_big)
+                }
+            });
+        }
 
+        events_list = await getEvents()
+        events_list.forEach(out_list => {
+            out_list.forEach(element => {
+                return_set.add(element);
+            });
+        });
+        return return_set;
 
-
-
+    }
 
     //todo reason = "something went wrong" no notes needed
     async getAllEvents() {
         var data_row = {}
         var data = []
-        var first_this = this;
         // Package the data nicely for return
         function eventPack( row ) {
-                data_row = {
-                    "Event_ID" : row.Event_ID ,
-                    "Student_ID" : row.Student_ID ,
-                    "Event_Name" : row.Event_Name ,
-                    "Event_Location" : row.Event_Location,
-                    "Event_Description" : row.Event_Description ,
-                    "Event_Date" : row.Event_Date,
-                    "Event_Start" : row.Event_Start ,
-                    "Event_End" : row.Event_End ,
-                    "Poster" : row.Poster ,
-                    "CCSGA_Approved" : row.CCSGA_Approved,
-                    "Link" : row.Link,
-                    "Tags" : row.Tags
-                }
-                return data_row
+            data_row = {
+                "Event_ID" : row.Event_ID ,
+                "Student_ID" : row.Student_ID ,
+                "Event_Name" : row.Event_Name ,
+                "Event_Location" : row.Event_Location,
+                "Event_Description" : row.Event_Description ,
+                "Event_Date" : row.Event_Date,
+                "Event_Start" : row.Event_Start ,
+                "Event_End" : row.Event_End ,
+                "Poster" : row.Poster ,
+                "CCSGA_Approved" : row.CCSGA_Approved,
+                "Link" : row.Link,
+                "Tags" : row.Tags
+            }
+            return data_row
         }
 
-
-//        async function getInfo() {
-            return new Promise(function(resolve, reject) {
-
-                firebase.database().ref('Events/').on('value', function (big_snapshot) {
-
+        return new Promise(function(resolve, reject) {
+            firebase.database().ref('Events/').on('value', function (big_snapshot) {
                 if( !big_snapshot){ reject("its empty?")}
-
                 big_snapshot.forEach(function (snapshot) {
                     var obj = snapshot.val();
                     var temp = eventPack(obj);
                     data.push( temp )
                 })
-                resolve(data)
-                });
+            resolve(data)
             });
-
-        //let a = await getInfo()
-        return a
+        });
     }
 
     getSpecificEvent( event_id ) {
@@ -199,27 +232,24 @@ export default class DatabaseManager {
               return blob;
         }
 
-        // Todo this is a mess, promise or not?
+        // Todo check with efficency?
         var childRef = ("uploads/"+id+".jpg")
         var storageRef = firebase.storage().ref();
         return new Promise(function(resolve, reject) {
             if ( img_uri == "no image"){
-                console.log("IM here for no image")
                 resolve( "no image")
             }
             else{
                 uriToBlob( img_uri ).then( blob => {
                     storageRef.child(childRef).put(blob, {
                         contentType: 'image/jpeg'
-                        }).then((snapshot)=>{
-                            blob.close();
-                            var storageRef = firebase.storage().ref(childRef);
-                            storageRef.getDownloadURL().then(url => {
-                            console.log("IM HERE :" + url )
-                            resolve( url )
-                            });
-
+                    }).then((snapshot)=>{
+                        blob.close();
+                        var storageRef = firebase.storage().ref(childRef);
+                        storageRef.getDownloadURL().then(url => {
+                        resolve( url )
                         });
+                    });
                 });
             }
         });
@@ -231,7 +261,12 @@ export default class DatabaseManager {
 //function test_code(){
 //    d = new DatabaseManager();
 //
-//
+//    d.getEventsFilteredByTags(["fun","lit"]).then( list => {
+//        console.log(list)
+//    });
 //}
-
+//
 //test_code();
+//        setTimeout(function(){
+//            console.log(list)
+//        }, 2000);

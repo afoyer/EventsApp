@@ -35,78 +35,93 @@ export default class HomeScreen extends React.Component{
         this.state = {
             items:[]
         }
-
     }
     componentDidMount(){
-     this.state.items = []
-     this._get().then(
+        //Duplicate events were happening i think this fixes it
+        this.state.items = []
+        // the var that will change the results
+        var tag_list = ["lit"]
+        var data = []
+        //Gets the event data for the cards
+        //data_raw is the entire events database
+        //todo serverside filtering / client side filtering, archive events makes sense this way
+        this._get().then(data_raw => {
 
-            //Duplicate events were happening i think fixes it
-            data => {
-                this.setState({items: data })
+            if ( tag_list.length > 0 ){
+                database.getEventsFilteredByTags( tag_list ).then( events => {
+                    data = data_raw.filter(function(value, index, arr){
+                        return events.has(data_raw[index].Event_ID);
+                    });
+                    this.setState({items: data })
+                });
             }
-     )
-
-   }
-   _get = async () => {
-       const data = await database.getAllEvents();
-       return (data);
-   }
-   static navigationOptions = {
-    title: 'Details',
-    titleColor: '#222222',
-    headerTintColor: 'white',
-    headerStyle: {
-      backgroundColor: '#222222'
-      
-    },
-  };
-
-
-
-  render() {
+            //no filters means all events
+            else{
+                this.setState({items: data_raw })
+            }
+        });
+    }
+    _get = async () => {
+        const data = await database.getAllEvents();
+        return (data);
+    }
+    static navigationOptions = {
+        title: 'Details',
+        titleColor: '#222222',
+        headerTintColor: 'white',
+        headerStyle: {
+            backgroundColor: '#222222'
+        },
+    };
 
 
 
-      if(this.state.items.length==0){
-          return(
-                 <PaperProvider theme={theme}>
-                     <View style={styles.loader}>
-                          <ActivityIndicator size='large'/>
-                     </View>
-                 </PaperProvider>
-                 )
-      }
-     return (
-       <View>
-          <Appbar.Header theme = {theme}>
-        
-        <Appbar.Content
-          title="Events"
-          subtitle="CC"
-        />
-        <Appbar.Action icon="information" onPress={this._handleSearch} />
-      </Appbar.Header>
-         <FlatList
-         data={this.state.items}
-         //data = temp_test
+    render() {
+        if(this.state.items.length==0){
+            return (
+                <View>
+                    <Appbar.Header theme = {theme}>
 
-         renderItem={({ item }) => (
-            //console.log( item )
-            <Item
-              title={item.Event_ID}
-              summary={item.Event_ID}
-              description={item.Event_ID}
-              image={item.Event_ID}
-              url={item.Event_ID}
-            />)}
-         keyExtractor={(item,index) => index.toString()}
-         renderItem={({item}) => <Cardd item={item}/>}
-         />
-         </View>
-             )
-      }
+                        <Appbar.Content
+                            title="Events"
+                            subtitle="CC"
+                        />
+                        <Appbar.Action icon="information" onPress={this._handleSearch} />
+                    </Appbar.Header>
+                </View>
+            )
         }
+        else{
+            return (
+                <View>
+                    <Appbar.Header theme = {theme}>
+
+                        <Appbar.Content
+                            title="Events"
+                            subtitle="CC"
+                        />
+                        <Appbar.Action icon="information" onPress={this._handleSearch} />
+                    </Appbar.Header>
+                    <FlatList
+                        data={this.state.items}
+
+
+                        renderItem={({ item }) => (
+                            <Item
+                            title={item.Event_ID}
+                            summary={item.Event_ID}
+                            description={item.Event_ID}
+                            image={item.Event_ID}
+                            url={item.Event_ID}
+                            />)}
+                        keyExtractor={(item,index) => index.toString()}
+                        renderItem={({item}) => <Cardd item={item}/>}
+                    />
+                </View>
+            )
+        }
+    }
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -138,13 +153,6 @@ const styles = StyleSheet.create({
    }
   });
 
-function helperFunction( err , data ){
-    //if ( err) { console.log( err )}
-    //else {
-    console.log("we mad e it?")
-    //}
 
-}
 
-function putEventsOnCards( ){}
 

@@ -108,9 +108,6 @@ export default class Cardd extends React.PureComponent {
     render(){
       //todo to whoever approaches, The attributes are "Event_ID , Student_ID ,Event_Name , Event_Location
       //todo Event_Description , Event_Date , Event_Start , Event_End , Poster , CCSGA_Approved , Link
-      console.log(" Poster url? ")
-      console.log(this.props.item.Poster == "no image")
-      console.log(" ")
 
       if ( this.props.item.Poster == "no image"){
         var poster_img = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBk9rGEmH-aZgOUCnYpDMYqkF1a19BZHCh-tTfE_aeAG5u5akQ&s";
@@ -143,7 +140,7 @@ export default class Cardd extends React.PureComponent {
                 <TouchableOpacity onPress={() => this._onPressButton(this.props.item.url)}>
                   <View style={styles.button}>
                   <Card.Title
-    title = {<Text style = {{fontSize: 16, color: 'black'}} >{this.props.item.title} </Text>}
+    title = {<Text style = {{fontSize: 16, color: 'black'}} >{this.props.item.Event_Name} </Text>}
     subtitle= { <Text style = {{ color: 'darkblue'}} >{sub2} </Text>}
     subtitleStyle = {<Text style =  {{includeFontPadding: true}}/> }
     
