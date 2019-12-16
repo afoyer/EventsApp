@@ -7,11 +7,13 @@ import Animated, { Easing } from 'react-native-reanimated';
 import CardStackStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator';
 import ImagePicker from 'react-native-image-picker';
 import DateTimePicker from "react-native-modal-datetime-picker";
-import DatabaseManager from '../databaseManager';
-
+import moment from 'moment'
 Icon.loadFont()
-database = new DatabaseManager();
-
+const utcDateToString = (momentInUTC: moment): string => {
+  let s = moment.utc(momentInUTC).format('MMMM Do YYYY, h:mm:ss a');
+  // console.warn(s);
+  return s;
+};
 
 class Add extends React.Component {
 
@@ -21,6 +23,7 @@ class Add extends React.Component {
     title: null,
     date: null,
     time: null,
+    buttonDate: "Choose Date and Time",
     isDateTimePickerVisible: false,
   }
 
@@ -38,44 +41,35 @@ class Add extends React.Component {
     ),
 
   };
-
+  
   showDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: true });
   };
+  hideDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: false });
+  };
+  changeButtonDate = (time) =>{
+    this.setState({buttonDate : utcDateToString(time) })
+  }
 
   handleDatePicked = date => {
     console.log("A date has been picked: ", date);
     this.hideDateTimePicker();
   };
   handleDatePicked = time => {
+    this.changeButtonDate(time.stringify)
     console.log("A time has been picked: ", time);
     this.hideDateTimePicker();
   };
 
-  //Photo starts uploading when selected, can be over written
-  //Cards need to now get the file location of an event (file location)
   handleChoosePhoto = () => {
     const options = {
       noData: true,
     };
     ImagePicker.launchImageLibrary(options, response => {
-      //console.log("response", response);
-      var file_location = "no image"
+      console.log("response", response);
       if (response.uri){
         this.setState({photo: response})
-        if (!response.cancelled) {
-            // User picked an image
-            const {height, width, type, uri} = response;
-            file_location = database.formatImg( uri , "3" );
-
-            //DELETE THIS EVENTUALLY this creats a dummy event with the url to img
-            var param_list = [ 1731401 , 173140 , "Event  Name" , "Somewhere", "Click to find out" , "now", "soon", "later", "fix me" , "True" , "https://blazeti.me/" , "tags"]
-            database.createEvent( param_list )
-//            setTimeout(function(){
-//                console.log(file_location)
-//            }, 2000);
-
-          }
       }
     })
   }
@@ -86,14 +80,14 @@ class Add extends React.Component {
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <TextInput
             style={{height: 40}}
-            placeholder="Enter Your Event Title  Here: "
+            placeholder="Enter Your Event Title Here: "
             onChangeText={(text) => this.setState({text})}
             value={this.state.title}
           />
-          <Button title="Pick Event Date and Time" onPress={this.showDateTimePicker} />
+          <Button title= {this.state.buttonDate} onPress={this.showDateTimePicker} />
           <DateTimePicker
             isVisible={this.state.isDateTimePickerVisible}
-            onConfirm= {console.log("hi")}
+            onConfirm={this.handleDatePicked}
             onCancel={this.hideDateTimePicker}
             mode={'datetime'}
           />
