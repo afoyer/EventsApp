@@ -39,32 +39,15 @@ export default class HomeScreen extends React.Component{
     }
     componentDidMount(){
 
-
-//         database.getAllEvents().then(
-//            data => {
-//              this.setState({items: data })
-//            }
-//         )
-    //old code for pulling from the rss feed
      this._get().then(
             data => {
                 this.setState({items: data })
-                //console.log( " 1    :  " + this.state.items.length)
             }
      )
 
    }
    _get = async () => {
        const data = await database.getAllEvents();
-       //const res = await fetch( rss_url );
-       //const data = await res.json();
-       setTimeout((function (){
-            //console.log( data )
-            var json = data.reduce((json, value, key) => { json[key] = value; return json; }, {});
-            //console.log(" ")
-            //console.log( data )
-
-       }), 500);
        return (data);
    }
    static navigationOptions = {
@@ -92,11 +75,6 @@ export default class HomeScreen extends React.Component{
                  </PaperProvider>
                  )
       }
-     var ta= this.state.items
-     setTimeout((function (){
-                 console.log("  ")
-                 console.log("here  Drew : " + ta)
-            }), 2000);
      return (
        <View>
           <Appbar.Header theme = {theme}>

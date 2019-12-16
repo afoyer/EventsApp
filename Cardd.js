@@ -111,7 +111,12 @@ export default class Cardd extends React.PureComponent {
       var subtitle = this.props.item.Event_ID;
       const nowUTC = moment.utc();
       var sub2 = this.props.item.Event_Name.toString();
-      var sub3 = this.props.item.Event_ID.toString();;
+      var sub3 = this.props.item.Event_ID.toString();
+      //var poster_img = this.props.item.Poster; USE THIS ONE IRL
+      var poster_img = database.getImgByPath("uploads/3.jpg")
+      //console.log( poster_img )
+      var img_src = "https:firebasestorage.googleapis.com/v0/b/softwareprojectsprinkles.appspot.com/o/uploads%2F3.jpg?alt=media&token=d5178fee-4fa2-48d4-8f1f-325b1cb80729"
+
 
       
      //Todo ahhh this is confusing im a java programmer <> are weird
@@ -136,7 +141,9 @@ export default class Cardd extends React.PureComponent {
     right={(props) => <IconButton {...props} icon="shape-square-plus" color={'#4764AE'}
     size={30} onPress={() => Cardd.addToCalendar(this.props.item.title, timestart, timeend)} />}
   />
-                  <Card.Cover source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBk9rGEmH-aZgOUCnYpDMYqkF1a19BZHCh-tTfE_aeAG5u5akQ&s"}} />
+                  <Card.Cover source={{ uri: "https:firebasestorage.googleapis.com/v0/b/softwareprojectsprinkles.appspot.com/o/uploads%2F3.jpg?alt=media&token=d5178fee-4fa2-48d4-8f1f-325b1cb80729"}} />
+}} />
+                  //<Card.Cover source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBk9rGEmH-aZgOUCnYpDMYqkF1a19BZHCh-tTfE_aeAG5u5akQ&s"}} />
                   </View>
                 </TouchableOpacity>
                     
