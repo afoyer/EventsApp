@@ -45,7 +45,7 @@ export default class DatabaseManager {
         Poster = param_list[8]
         CCSGA_Approved = param_list[9]
         Link = param_list[10]
-        Tags = param_list[11]
+        tag_list = param_list[11]
 
         var usersRef = firebase.database().ref("Events/StudentEvents");
 
@@ -61,12 +61,13 @@ export default class DatabaseManager {
             Poster : Poster,
             CCSGA_Approved : CCSGA_Approved,
             Link : Link,
-            Tags : Tags
+            Tags : tag_list
           });
 
-        var tag_list = Tags.split(",")
+        //var tag_list = Tags.split(",")
         for( i in tag_list ){
             this.addTaggedEvent( tag_list[i] , Event_ID)
+            console.log( "tag : " + tag_list[i])
         }
     }
 
@@ -175,7 +176,6 @@ export default class DatabaseManager {
                 "Link" : row.Link,
                 "Tags" : row.Tags
             }
-            console.log(data_row)
             return data_row
         }
 

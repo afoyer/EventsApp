@@ -24,6 +24,8 @@ class Add extends React.Component {
   state = {
     CCSGA_Approved: false,
     buttonStartDate: "Choose the Start Date and Time",
+    start: null,
+    end: null,
     description: null,
     buttonEndDate: "Choose the End Date and Time",
     event_id: null,
@@ -75,12 +77,12 @@ class Add extends React.Component {
   }
   handleStartDatePicked = time => {
     this.changeStartButtonDate(time);
-    console.log("A start time has been picked: ", time.stringify);
+    console.log("A start time has been picked: ", time);
     this.hideStartDateTimePicker();
   };
   handleEndDatePicked = (date) => {
     this.changeEndButtonDate(date);
-    console.log("An end time has been picked: ", date.stringify);
+    console.log("An end time has been picked: ", date);
     this.hideEndDateTimePicker();
   };
   handleStudentId = text =>{
@@ -141,7 +143,7 @@ class Add extends React.Component {
           />
           <TextInput
             style={{height: 40}}
-            placeholder="Enter Your Title Location Here: "
+            placeholder="Enter Your Event Location Here: "
             onChangeText={(text) => this.setState({location: text})}
             value={this.state.location}
           />

@@ -118,10 +118,10 @@ export default class Cardd extends React.PureComponent {
 
       var subtitle = this.props.item.Event_ID;
       const nowUTC = moment.utc();
-      //var sub2 = this.props.item.Event_Name.toString();
-      //var sub3 = this.props.item.Event_ID.toString();
+      var sub2 = this.props.item.Event_Name.toString();
+      var sub3 = this.props.item.Event_ID.toString();
       //var poster_img = this.props.item.Poster; USE THIS ONE IRL
-      var poster_img = database.getImgByPath("uploads/3.jpg")
+      //var poster_img = database.getImgByPath("uploads/3.jpg")
       //console.log( poster_img )
       //console.log("hi " + poster_img)
       var img_src = "https:firebasestorage.googleapis.com/v0/b/softwareprojectsprinkles.appspot.com/o/uploads%2F3.jpg?alt=media&token=d5178fee-4fa2-48d4-8f1f-325b1cb80729"
@@ -144,7 +144,7 @@ export default class Cardd extends React.PureComponent {
                   <View style={styles.button}>
                   <Card.Title
     title = {<Text style = {{fontSize: 16, color: 'black'}} >{this.props.item.Event_Name} </Text>}
-    //subtitle= { <Text style = {{ color: 'darkblue'}} >{sub2} </Text>}
+    subtitle= { <Text style = {{ color: 'darkblue'}} >{sub2} </Text>}
     subtitleStyle = {<Text style =  {{includeFontPadding: true}}/> }
 
     right={(props) => <IconButton {...props} icon="shape-square-plus" color={'#4764AE'}
@@ -153,7 +153,7 @@ export default class Cardd extends React.PureComponent {
                       <Card.Cover source={{ uri: poster_img}} />
                       </View>
                 </TouchableOpacity>
- 
+
 
 
                 </Card>
