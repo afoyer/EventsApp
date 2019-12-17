@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "date": "^1.0.2",
     "firebase": "^7.6.0",
     "image-to-blob": "^0.2.0",
     "moment": "^2.24.0",
