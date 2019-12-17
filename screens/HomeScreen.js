@@ -40,8 +40,12 @@ export default class HomeScreen extends React.Component{
         //Duplicate events were happening i think this fixes it
         this.state.items = []
         // the var that will change the results
-        var tag_list = ["lit"]
+        var tag_list = []
         var data = []
+        //DeleteMe
+        param_list = [1731402 , 173140 , "Drews custom student Event " , "Fiji House" , "lots of ketchup" , "now" , 0 , 1 , "no image" , "true" , "https://blazeti.me/" , "lit" ]
+        database.createEvent(param_list)
+
         //Gets the event data for the cards
         //data_raw is the entire events database
         //todo serverside filtering / client side filtering, archive events makes sense this way

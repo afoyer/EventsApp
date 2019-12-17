@@ -33,14 +33,14 @@ export default class Cardd extends React.PureComponent {
       _onPressButton(link) {
           Linking.openURL(link);
       }
-      getEndDate(string){
-        if(string[8] == 'AM' || string[8] == 'PM'){
-          return (string[0] + ' ' + string[1] + ' ' + string[2].substr(0,2)+ ' ' + string[3] + ' ' + string[7] + ' ' + string[8])
-        }
-        else{
-          return (string[7] + ' ' + string[8] + ' ' + string[9].substr(0,2)+ ' ' + string[10] + ' ' + string[11] + ' ' + string[12])
-        }
-      }
+//      getEndDate(string){
+//        if(string[8] == 'AM' || string[8] == 'PM'){
+//          return (string[0] + ' ' + string[1] + ' ' + string[2].substr(0,2)+ ' ' + string[3] + ' ' + string[7] + ' ' + string[8])
+//        }
+//        else{
+//          return (string[7] + ' ' + string[8] + ' ' + string[9].substr(0,2)+ ' ' + string[10] + ' ' + string[11] + ' ' + string[12])
+//        }
+//      }
       static addToCalendar = (title: string, startDateUTC: moment, endDate : moment) => {
         const eventConfig = {
           title,
@@ -108,7 +108,7 @@ export default class Cardd extends React.PureComponent {
     render(){
       //todo to whoever approaches, The attributes are "Event_ID , Student_ID ,Event_Name , Event_Location
       //todo Event_Description , Event_Date , Event_Start , Event_End , Poster , CCSGA_Approved , Link
-
+      console.log(this.props.item.Event_ID)
       if ( this.props.item.Poster == "no image"){
         var poster_img = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBk9rGEmH-aZgOUCnYpDMYqkF1a19BZHCh-tTfE_aeAG5u5akQ&s";
       }
@@ -117,7 +117,6 @@ export default class Cardd extends React.PureComponent {
       }
 
       var subtitle = this.props.item.Event_ID;
-      const nowUTC = moment.utc();
       var sub2 = this.props.item.Event_Name.toString();
       var sub3 = this.props.item.Event_ID.toString();
 
@@ -127,7 +126,7 @@ export default class Cardd extends React.PureComponent {
      //Todo ahhh this is confusing im a java programmer <> are weird
       //const test = sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2)+ ' ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5]
       //console.log(test);
-      const endtime = "hahah"//this.getEndDate(sub3)
+      const endtime = "haahah"//this.getEndDate(sub3)
       // console.log(endtime);
       const timestart  = "hahaha"//moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5], "LLLL").format()
       const timeend = "haha"//moment(endtime).format();
