@@ -51,6 +51,10 @@ export default class HomeScreen extends React.Component{
         //todo serverside filtering / client side filtering, archive events makes sense this way
         this._get().then(data_raw => {
 
+            data = data_raw.filter(function(value, index, arr){
+                                    return events.has(data_raw[index].Event_ID);
+                                   });
+
             if ( tag_list.length > 0 ){
                 database.getEventsFilteredByTags( tag_list ).then( events => {
                     data = data_raw.filter(function(value, index, arr){
@@ -63,6 +67,7 @@ export default class HomeScreen extends React.Component{
             else{
                 this.setState({items: data_raw })
             }
+
         });
     }
     _get = async () => {

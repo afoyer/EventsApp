@@ -7,7 +7,7 @@ var date = require('date')
 
 
 export default class DatabaseManager {
-//class DatabaseManager {
+class DatabaseManager {
     constructor(){
         // this.firebase = firebase;
         var con = {
@@ -179,7 +179,6 @@ export default class DatabaseManager {
                 "Link" : row.Link,
                 "Tags" : row.Tags
             }
-            console.log(data_row)
             return data_row
         }
 
@@ -188,7 +187,6 @@ export default class DatabaseManager {
                 if( !big_snapshot){ reject("its empty?")}
 
                 big_snapshot.forEach(function (snapshot) {
-                    console.log("one shot")
                     snapshot.forEach(function (event) {
                         var obj = event.val();
                         var temp = eventPack(obj);
@@ -277,14 +275,19 @@ async function rss_getter(){
     for ( var i in item_list){
         event = formatter(item_list[i])
         rss_events.push(event)
-        if( rss_events.length > 4){
-            break
-        }
+//        if( rss_events.length > 4){
+//            break
+//        }
     }
+    var shortest = 1000000000000000
     rss_events.forEach(event => {
-        createEventRSS( event )
-    });
+        //createEventRSS( event )
+        if(event[6] < shortest){
+            shortest = event[6]
+        }
 
+    });
+    console.log(shortest)
 
     function formatter( rss_item){
 
@@ -471,7 +474,7 @@ function checkSize(){
 
 
 
-//rss_getter()
+rss_getter()
 
 checkSize()
 
