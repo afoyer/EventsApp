@@ -67,8 +67,8 @@ export default class Cardd extends React.PureComponent {
             console.warn(error);
           });
       };
-      
-      
+
+
       static editCalendarEventWithId = (eventId: string) => {
         const eventConfig = {
           eventId,
@@ -104,14 +104,14 @@ export default class Cardd extends React.PureComponent {
             // console.warn(error);
           });
       };
-      
+
     render(){
       //todo to whoever approaches, The attributes are "Event_ID , Student_ID ,Event_Name , Event_Location
       //todo Event_Description , Event_Date , Event_Start , Event_End , Poster , CCSGA_Approved , Link
       var subtitle = this.props.item.Event_ID;
       const nowUTC = moment.utc();
-      var sub2 = this.props.item.Event_Name.toString();
-      var sub3 = this.props.item.Event_ID.toString();
+      //var sub2 = this.props.item.Event_Name.toString();
+      //var sub3 = this.props.item.Event_ID.toString();
       //var poster_img = this.props.item.Poster; USE THIS ONE IRL
       var poster_img = database.getImgByPath("uploads/3.jpg")
       //console.log( poster_img )
@@ -119,7 +119,7 @@ export default class Cardd extends React.PureComponent {
       var img_src = "https:firebasestorage.googleapis.com/v0/b/softwareprojectsprinkles.appspot.com/o/uploads%2F3.jpg?alt=media&token=d5178fee-4fa2-48d4-8f1f-325b1cb80729"
 
 
-      
+
      //Todo ahhh this is confusing im a java programmer <> are weird
       //const test = sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2)+ ' ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5]
       //console.log(test);
@@ -129,25 +129,25 @@ export default class Cardd extends React.PureComponent {
       const timeend = "haha"//moment(endtime).format();
       // const timeend  =  moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[7] + ' ' + sub3[8], "LLLL").format()
         return (
-          
+
                 <PaperProvider theme={theme}>
                 <Card style={styles.cardStyle}>
                 <TouchableOpacity onPress={() => this._onPressButton(this.props.item.url)}>
                   <View style={styles.button}>
                   <Card.Title
     title = {<Text style = {{fontSize: 16, color: 'black'}} >{this.props.item.title} </Text>}
-    subtitle= { <Text style = {{ color: 'darkblue'}} >{sub2} </Text>}
+    //subtitle= { <Text style = {{ color: 'darkblue'}} >{sub2} </Text>}
     subtitleStyle = {<Text style =  {{includeFontPadding: true}}/> }
-    
+
     right={(props) => <IconButton {...props} icon="shape-square-plus" color={'#4764AE'}
     size={30} onPress={() => Cardd.addToCalendar(this.props.item.title, timestart, timeend)} />}
       />
                       <Card.Cover source={{ uri: img_src}} />
                       </View>
                 </TouchableOpacity>
-                    
-               
-                
+
+
+
                 </Card>
                 <Text></Text>
                 </PaperProvider>
@@ -178,6 +178,6 @@ const styles = StyleSheet.create({
          padding:10,
          fontSize:14,
      },
-     
+
  }
 );

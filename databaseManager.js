@@ -52,7 +52,7 @@ export default class DatabaseManager {
         Link = param_list[10]
         Tags = param_list[11]
 
-        var usersRef = firebase.database().ref("Events");
+        var usersRef = firebase.database().ref("Events/StudentEvents");
 
         usersRef.child(Event_ID).set({
             Event_ID : Event_ID,
