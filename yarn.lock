@@ -2341,6 +2341,11 @@ data-urls@^1.0.0:
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
 
+date@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/date/-/date-1.0.2.tgz#9f1503d6519843d94866fc79a91e9be88dcb4776"
+  integrity sha1-nxUD1lGYQ9lIZvx5qR6b6I3LR3Y=
+
 dayjs@^1.8.15:
   version "1.8.17"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.17.tgz#53ec413f2a7b02afbea1846d61bb260fa8567cea"
@@ -5622,11 +5627,6 @@ pn@^1.1.0:
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
   integrity sha512-2qHaIQr2VLRFoxe2nASzsV6ef4yOOH+Fi9FBOVH6cqeSgUnoyySPZkxzLuzd+RYOQTRpROA0ztTMqxROKSb/nA==
 
-pod-installer@0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/pod-installer/-/pod-installer-0.0.0.tgz#363290ec9f2eb7a88bc3e1f229793efdcc7c81c6"
-  integrity sha512-5GFFvaXwESMx0QoopeJqFZzi4xOqI86Lh65WqWAVuZNorUio4/ZBRx7AQBfwnBwOeGA/JjXHP+nHZmSKWGoG1g==
-
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
@@ -5911,13 +5911,6 @@ react-native-tab-view@^2.11.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.11.0.tgz#2e57d1f617ccc88c7f452708804f3409f880b700"
   integrity sha512-vqetlxGO7A8bnqvXcB50MWpRZAImXFrDGz1WCQKdCqe03Ey3ZzENe7yLuWrtBJYlepGfOLAsmCXv+wW82Yfm1w==
-
-react-native-text-switch@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-text-switch/-/react-native-text-switch-0.0.1.tgz#332a6c89266acabc37e7a130b722078d0f6ca421"
-  integrity sha512-5BjsEgX/RqiE7spEY5leZ8VFfJkdknhFCxE1yWvuhS8FAdMfxyaoe7ugMSOQ6NjHHLadDP/iTSb534FoAZBdAg==
-  dependencies:
-    pod-installer "0.0.0"
 
 react-native-vector-icons@^6.6.0:
   version "6.6.0"

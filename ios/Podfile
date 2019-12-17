@@ -34,11 +34,6 @@ target 'EventsApp' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-
-
-
-  pod 'RNTextSwitch', :path => '../node_modules/react-native-text-switch'
-
   target 'EventsAppTests' do
     inherit! :search_paths
     # Pods for testing
