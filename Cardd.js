@@ -121,7 +121,6 @@ export default class Cardd extends React.PureComponent {
       var sub2 = this.props.item.Event_Name.toString();
       var sub3 = this.props.item.Event_ID.toString();
 
-      console.log( poster_img )
 
 
       

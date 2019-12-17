@@ -268,14 +268,23 @@ async function rss_getter(){
 
     for ( var i in item_list){
         if( item_list[i].title.includes("Colorado College Men's Basketball")){
-            console.log(item_list[i])
+            formatter(item_list[i])
             break
         }
-
-
-
     }
 
+    function formatter( rss_item){
+        var subtitle = rss_item.summary.split("</p>",1);
+        const nowUTC = moment.utc();
+        var sub2 = subtitle[0].substr(3);
+        var sub3 = sub2.split(" ");
+        const test = sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2)+ ' ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5]
+        const endtime = this.getEndDate(sub3)
+        const timestart  = moment(sub3[0] + ' ' + sub3[1] + ' ' + sub3[2].substr(0,2) + 'th ' + sub3[3] + ' ' + sub3[4] + ' ' + sub3[5], "LLLL").format()
+        const timeend = moment(endtime).format();
+
+        console.log(test)
+    }
 
     async function get(endpoint){
         const res = await fetch(endpoint);
