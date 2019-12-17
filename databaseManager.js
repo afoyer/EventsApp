@@ -1,6 +1,8 @@
 var firebase = require('firebase');
 var firebaseResumeDownloadAdd = null;
 var imageToBlob = require( 'image-to-blob' )
+let Parser = require('rss-parser');
+let parser = new Parser();
 
 //export default class DatabaseManager {
 class DatabaseManager {
@@ -258,11 +260,22 @@ class DatabaseManager {
 
 
 
-function rss_getter(){
+async function rss_getter(){
     var rss_url = 'https://feed2json.org/convert?url=https%3A%2F%2Fcoloradocollege-web.ungerboeck.com%2Fcalendar%2Fapi%2FrssFeed%3F%24filter%3D%28CampusDisplay%2520eq%2520%2527PUBANDINT%2527%2520or%2520CampusDisplay%2520eq%2520%2527INTERNAL%2527%29'
-    get(rss_url).then(data => {
-        console.log( data.length )
-    })
+    let feed = await get(rss_url);
+    console.log(feed.title);
+    item_list = feed.items;
+
+    for ( var i in item_list){
+        if( item_list[i].title.includes("Colorado College Men's Basketball")){
+            console.log(item_list[i])
+            break
+        }
+
+
+
+    }
+
 
     async function get(endpoint){
         const res = await fetch(endpoint);
@@ -270,9 +283,19 @@ function rss_getter(){
         return data;
     }
 
+
+
+
+
+
+
 }
 
 rss_getter()
+
+
+
+
 
 
 //function test_code(){
