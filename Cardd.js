@@ -120,6 +120,7 @@ export default class Cardd extends React.PureComponent {
       const nowUTC = moment.utc();
       var sub2 = this.props.item.Event_Name.toString();
       var sub3 = this.props.item.Event_ID.toString();
+      var sub4 = this.props.item.Event_Date;
       //var poster_img = this.props.item.Poster; USE THIS ONE IRL
       //var poster_img = database.getImgByPath("uploads/3.jpg")
       //console.log( poster_img )
@@ -144,7 +145,8 @@ export default class Cardd extends React.PureComponent {
                   <View style={styles.button}>
                   <Card.Title
     title = {<Text style = {{fontSize: 16, color: 'black'}} >{this.props.item.Event_Name} </Text>}
-    subtitle= { <Text style = {{ color: 'darkblue'}} >{sub2} </Text>}
+    subtitle= { <Text style = {{ color: 'darkblue'}} >{sub2 + ": " + sub4}</Text>}
+    //subtitle= { <Text style = {{ color: 'darkblue'}} >{sub4} </Text>}
     subtitleStyle = {<Text style =  {{includeFontPadding: true}}/> }
 
     right={(props) => <IconButton {...props} icon="shape-square-plus" color={'#4764AE'}
