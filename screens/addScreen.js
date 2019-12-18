@@ -35,6 +35,7 @@ class Add extends React.Component {
     student_id: null,
     photo: null,
     tags: [],
+    uri: null,
     isSDateTimePickerVisible: false,
     isEDateTimePickerVisible: false,
   }
@@ -77,12 +78,14 @@ class Add extends React.Component {
   }
   handleStartDatePicked = time => {
     this.changeStartButtonDate(time);
-    console.log("A start time has been picked: ", time);
+    this.setState({start: utcDateToString(time)});
+    console.log("A start time has been picked: ", utcDateToString(time));
     this.hideStartDateTimePicker();
   };
   handleEndDatePicked = (date) => {
     this.changeEndButtonDate(date);
-    console.log("An end time has been picked: ", date);
+    this.setState({end: utcDateToString(date)});
+    console.log("An end time has been picked: ", utcDateToString(date));
     this.hideEndDateTimePicker();
   };
   handleStudentId = text =>{
@@ -100,6 +103,7 @@ class Add extends React.Component {
         if (!response.cancelled) {
             // uri is poster!!!! for create
             const {height, width, type, uri} = response;
+            this.setState({uri: uri})
           }
       }
     })
@@ -114,14 +118,14 @@ class Add extends React.Component {
    onSelectionsChange = (selectedTags) => {
    // selectedFruits is array of { label, value }
    this.setState({ tags: selectedTags})
+   console.log(this.state.tags);
   };
   handleCreateNewEvent = () =>{
     var list = [this.state.event_id, this.state.student_id, this.state.title, this.state.location,
-                this.state.description, null, this.state.buttonStartDate, this.state.buttonEndDate,
-                this.state.photo, this.state.CCSGA_Approved, this.state.link, this.state.tags];
+                this.state.description, null, this.state.start, this.state.end,
+                this.state.uri, this.state.CCSGA_Approved, this.state.link, this.state.tags];
     database.createEvent(list);
   };
-
 
   render() {
     const { photo } = this.state;
