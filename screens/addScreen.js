@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, View, Text, Colors, Image, TextInput, ScrollView, StyleSheet } from 'react-native';
+import { Button, View, Text, Colors, Image,  ScrollView, StyleSheet } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -8,8 +8,11 @@ import CardStackStyleInterpolator from 'react-navigation-stack/src/views/StackVi
 import ImagePicker from 'react-native-image-picker';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from 'moment';
+
+import {TextInput, DefaultTheme, Avatar, Card,  Title, Paragraph} from 'react-native-paper'
 import { Switch } from 'react-native-switch';
 import SelectMultiple from 'react-native-select-multiple'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 Icon.loadFont()
 const utcDateToString = (momentInUTC: moment): string => {
   let s = moment.utc(momentInUTC).format('MMMM Do YYYY, h:mm:ss a');
@@ -17,7 +20,24 @@ const utcDateToString = (momentInUTC: moment): string => {
   return s;
 };
 const tags = ['Athletics', 'CCSGA Approved', 'Music & Arts', 'Social', 'Cultural'];
-
+const theme = {
+  ...DefaultTheme,
+    
+    
+    colors: {
+      ...DefaultTheme.colors,
+      primary: 'blue',
+      accent: '#f1c40f',
+      text: "#444444",
+      background: '#ffffff',
+      backgroundColor: "red",
+      marginRight:40,
+      marginLeft:40,
+      marginTop:10,
+      contained: '#000000'
+    },
+    dark: true
+  };
 
 class Add extends React.Component {
 
@@ -33,7 +53,7 @@ class Add extends React.Component {
     title: null,
     link: null,
     student_id: null,
-    photo: null,
+    photo: './default.jpg',
     tags: [],
     isSDateTimePickerVisible: false,
     isEDateTimePickerVisible: false,
@@ -126,8 +146,124 @@ class Add extends React.Component {
   render() {
     const { photo } = this.state;
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+      <View >
+        {/* <ScrollView contentContainerStyle={{flexGrow: 1}}> */}
+        <Card style = {{elevation :10}} theme = {theme}>
+    {/* <Card.Title title="Card Title" subtitle="Card Subtitle" left={(props) => <Avatar.Icon {...props} icon="folder" />} /> */}
+    <Card.Content>
+      <View style= {{ flexDirection:'row', justifyContent: 'center'}}>
+      <TextInput theme = {theme} style = {{width: '50%'}}
+        label='Event Title'
+        mode = 'outlined'  
+        onChangeText={text => this.setState({ title: text })}
+        value = {this.state.title}
+      />
+      <TextInput
+            theme = {theme}
+            mode = 'outlined'
+            style = {{width: '50%'}}
+            label="Location"
+            onChangeText={(text) => this.setState({location: text})}
+            value={this.state.location}
+          />
+          </View>
+
+      <Card.Actions style = {{alignContent: 'center', justifyContent: 'space-around'}}>
+      <Text>CCSGA approved?</Text>
+          <Switch
+            activeText={'Yes'}
+            inActiveText={'No'}
+            style={{marginTop:30}}
+            onValueChange = {this.toggleSwitch}
+            value = {this.state.CCSGA_Approved}/>
+      </Card.Actions>
+      <TextInput
+            theme = {theme}
+            mode = 'outlined'
+            placeholder="URL (Optional)"
+            onChangeText={(text) => this.setState({link: text})}
+            value={this.state.link}
+          />
+      <View style ={{ flexDirection:'row', justifyContent:'flex-start'}}>
+      <TextInput
+            theme = {theme}
+            style = {{width: '50%'}}
+            label="Student ID Number: "
+            onChangeText={(text) => {
+              this.setState({event_id: text + this.getTimeStamp()});
+              this.handleStudentId(text);
+            }}
+            maxLength={6}
+            value={this.state.student_id}
+          />
+          <View style  ={{flex:1, justifyContent:'center'}}>
+          <Text>
+               Event Id:
+
+            </Text>
+            <Text>
+            {this.state.event_id}
+            </Text>
+            </View>
+      </View>
+      <TextInput
+      theme = {theme}
+              label="Event Description (1-2 sentences): "
+              onChangeText={(text) => this.setState({description: text})}
+              value={this.state.description}
+              maxLength={240}
+            />
+      <Text style= {{fontSize: 10, paddingTop: 10}}>Dates are chosen in MST, but are displayed in UTC time (7 hours ahead).</Text>
+      
+          <Button color = 'skyblue' title= {this.state.buttonStartDate} onPress={this.showStartDateTimePicker} />
+          <DateTimePicker
+            isVisible={this.state.isSDateTimePickerVisible}
+            onConfirm={this.handleStartDatePicked}
+            onCancel={this.hideStartDateTimePicker}
+            mode={'datetime'}
+          />
+          
+      <View>
+      <Button color = 'steelblue' title= {this.state.buttonEndDate} onPress={this.showEndDateTimePicker} />
+          <DateTimePicker
+            isVisible={this.state.isEDateTimePickerVisible}
+            onConfirm={this.handleEndDatePicked}
+            onCancel={this.hideEndDateTimePicker}
+            mode={'datetime'}
+          />
+          </View>
+      <Card.Actions style= {{justifyContent:'space-evenly'}}>
+        <TouchableOpacity onPress={this.handleChoosePhoto}>
+      {photo && (
+          <Image
+          source={{uri : this.state.photo.uri}}
+          backgroundColor = '#f2f2f2'
+          style={{width: 200, height:200, resizeMode:'contain'}}
+          />
+        )}
+        </TouchableOpacity>
+        
+        <SelectMultiple style = {{numColumns: 2, height: 200}}
+
+          items={tags}
+          selectedItems={this.state.tags}
+          onSelectionsChange={this.onSelectionsChange} />
+        
+      </Card.Actions>
+      
+      
+      
+    </Card.Content>
+    </Card>
+    <View style = {{marginTop: 10, alignItems:'center'}}>
+    <Button style = {{elevation :10}} 
+            color ='red'
+            title="Submit Event"
+            onPress={this.handleCreateNewEvent}
+          />
+          </View>
+          
+          {/* <View style = {{flex: 1, flexDirection:'row', margin: 20}}>
           <Text>Is the event CCSGA approved?</Text>
           <Switch
             activeText={'Yes'}
@@ -135,6 +271,7 @@ class Add extends React.Component {
             style={{marginTop:30}}
             onValueChange = {this.toggleSwitch}
             value = {this.state.CCSGA_Approved}/>
+            </View>
           <TextInput
             style={{height: 40}}
             placeholder="Enter Your Event Title Here: "
@@ -190,7 +327,7 @@ class Add extends React.Component {
       {photo && (
           <Image
           source={{uri: photo.uri}}
-          style={{width: 300, height:300}}
+          style={{width: 200, height:300}}
           />
         )}
         <Button
@@ -205,8 +342,8 @@ class Add extends React.Component {
           <Button
             title="Submit Event"
             onPress={this.handleCreateNewEvent}
-          />
-        </ScrollView>
+          /> */}
+        {/* </ScrollView > */}
       </View>
     );
   }
