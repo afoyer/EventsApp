@@ -1,2 +1,3 @@
 # CC Events App
-### Cupcake and the Sprinkles!
+### A React Native/Firebase app for iOS and Android.
+
