@@ -4,7 +4,7 @@
 </p>
  <h1 align='center'> <strong> CC Events App </strong></h1> 
 
-## A React Native/Firebase app for iOS and Android.
+<h3 align='center'>A React Native/Firebase app for iOS and Android.</h3>
 
  <p align="center">
     <img  width=200 src="https://raw.githubusercontent.com/afoyer/EventsApp/master/Screenshot_20200819-114025_CC%20Events.jpg">
